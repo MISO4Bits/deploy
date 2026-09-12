@@ -1,10 +1,13 @@
 resources:
-  - ../../base
+- ../../base
 
 # Tag real de este ambiente — ver la misma nota en apps/bff-web/overlays/dev.
 # Todavía no existe ninguna imagen publicada de svc-cotizacion (ni siquiera
 # `develop`) — este pod queda en ImagePullBackOff hasta que el pipeline de
 # CI corra por primera vez tras mergear su PR de write-back.
 images:
-  - name: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-cotizacion
-    newTag: develop
+- name: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-cotizacion
+  newName: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-cotizacion
+  newTag: sha-945853a
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
