@@ -1,0 +1,15 @@
+# Solo interno — CoreTransaccional no se expone públicamente, únicamente lo
+# llama BFF Web dentro del cluster (sin Gateway/HTTPRoute aquí).
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-core
+  labels:
+    app: svc-core
+spec:
+  selector:
+    app: svc-core
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

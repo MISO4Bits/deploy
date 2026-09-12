@@ -1,0 +1,9 @@
+namespace: bff-web
+
+resources:
+  - namespace.yaml
+  - serviceaccount.yaml
+  - secretproviderclass.yaml
+  - deployment.yaml
+  - service.yaml
+  - gateway.yaml

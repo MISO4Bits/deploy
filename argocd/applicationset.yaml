@@ -1,0 +1,38 @@
+# Genera una Application de Argo CD por cada carpeta bajo apps/ (DI-007,
+# 5.5). Este archivo lo aplica Argo CD al sincronizar el root Application
+# que crea `iac-gcp-dev` (modules/argocd) apuntando a esta misma carpeta
+# `argocd/` — no lo aplica Terraform directamente.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/MISO4Bits/deploy.git
+        revision: main
+        directories:
+          - path: apps/*
+  template:
+    metadata:
+      name: "{{path.basename}}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/MISO4Bits/deploy.git
+        targetRevision: main
+        path: "{{path}}/overlays/dev"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{path.basename}}"
+      # Dev: auto-sync con selfHeal + prune, igual que el root Application
+      # (DI-007, 5.6). Cuando exista iac-gcp-prod, ese cluster tendrá su
+      # propio Argo CD con su propio ApplicationSet apuntando a
+      # overlays/prod con sync manual (5.7) — sin hub central (5.4).
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
+        syncOptions:
+          - CreateNamespace=true

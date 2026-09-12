@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bff-web
+  labels:
+    app: bff-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bff-web
+  template:
+    metadata:
+      labels:
+        app: bff-web
+    spec:
+      serviceAccountName: bff-web
+      containers:
+        - name: bff-web
+          # Tag placeholder — cada overlay lo sobrescribe con el bloque
+          # `images:` de su kustomization.yaml (DI-007, 5.2: el write-back
+          # de CI edita esa sección con `kustomize edit set image`, no este
+          # archivo). No dejar un tag de ambiente real aquí: base/ es
+          # compartido entre overlays/dev y overlays/prod.
+          image: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/bff-web:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: BFF_ENVIRONMENT
+              value: dev
+            # "http": identidad y CoreTransaccional reales (ambos van
+            # juntos, ver app/adapters/factory.py — no hay modo mixto).
+            - name: BFF_ADAPTERS
+              value: http
+            # Identity Platform real, no el emulador local de Firebase Auth
+            # (ese es el default en config.py). La API key la lee
+            # pydantic-settings del archivo montado por el SecretProviderClass
+            # de abajo (secrets_dir, ver config.py) — no va aquí como env var.
+            - name: BFF_IDENTITY_BASE_URL
+              value: https://identitytoolkit.googleapis.com
+            # DNS interno del Service de svc-core (namespace svc-core,
+            # puerto 80 -> containerPort 8080 del pod).
+            - name: BFF_CORE_BASE_URL
+              value: http://svc-core.svc-core.svc.cluster.local
+          volumeMounts:
+            - name: identity-platform-secret
+              mountPath: /var/secrets
+              readOnly: true
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 20
+      volumes:
+        - name: identity-platform-secret
+          csi:
+            driver: secrets-store-gke.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: bff-web-secrets

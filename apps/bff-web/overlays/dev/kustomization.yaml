@@ -1,0 +1,10 @@
+resources:
+  - ../../base
+
+# Tag real de este ambiente. El write-back de CI (DI-007, 5.2) edita esto
+# con `kustomize edit set image` — hoy fijo a mano en `develop` (tag
+# flotante, DI-006 4.5) porque ese write-back todavía no está implementado
+# en el pipeline de bff-web.
+images:
+  - name: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/bff-web
+    newTag: develop

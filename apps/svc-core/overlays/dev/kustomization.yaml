@@ -1,0 +1,7 @@
+resources:
+  - ../../base
+
+# Tag real de este ambiente — ver la misma nota en apps/bff-web/overlays/dev.
+images:
+  - name: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-core
+    newTag: develop
