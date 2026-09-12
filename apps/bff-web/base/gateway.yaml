@@ -15,11 +15,9 @@
 # excluyentes) — también creado en persistent/, para el dominio
 # bff-web.dev.solventa4bits.com.
 #
-# El listener HTTP se mantiene temporalmente mientras el certificado pasa
-# de PROVISIONING a ACTIVE (necesita el registro DNS ya apuntando a la IP
-# y este Gateway sirviendo tráfico real). Quitar en cuanto se confirme que
-# HTTPS ya funciona — el plan es que el tramo API Gateway → bff-web quede
-# cifrado, no en texto plano.
+# Certificado ACTIVE y HTTPS confirmado funcionando (2026-09-12) — el
+# listener HTTP temporal ya se quitó. Todo el tráfico entra cifrado; no hay
+# bypass en texto plano hacia bff-web.
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
@@ -32,12 +30,6 @@ spec:
     - type: NamedAddress
       value: bff-web-dev
   listeners:
-    - name: http
-      protocol: HTTP
-      port: 80
-      allowedRoutes:
-        kinds:
-          - kind: HTTPRoute
     - name: https
       protocol: HTTPS
       port: 443
