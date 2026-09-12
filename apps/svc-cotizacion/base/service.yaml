@@ -1,0 +1,15 @@
+# Solo interno — Cotización y Rating no se expone públicamente, la llama
+# BFF Web dentro del cluster (sin Gateway/HTTPRoute aquí), igual que svc-core.
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-cotizacion
+  labels:
+    app: svc-cotizacion
+spec:
+  selector:
+    app: svc-cotizacion
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

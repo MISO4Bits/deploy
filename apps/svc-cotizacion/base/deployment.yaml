@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: svc-cotizacion
+  labels:
+    app: svc-cotizacion
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: svc-cotizacion
+  template:
+    metadata:
+      labels:
+        app: svc-cotizacion
+    spec:
+      containers:
+        - name: svc-cotizacion
+          # Tag placeholder — cada overlay lo sobrescribe con el bloque
+          # `images:` de su kustomization.yaml (DI-007, 5.2). No dejar un
+          # tag de ambiente real aquí: base/ es compartido entre
+          # overlays/dev y overlays/prod.
+          image: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-cotizacion:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            # Adaptador "fake" (default de la imagen, todo en memoria) — el
+            # adaptador de persistencia real contra la instancia compartida
+            # de Spanner (ya aprovisionada en modules/spanner) todavía no
+            # existe en el código de svc-cotizacion.
+            - name: COT_ENVIRONMENT
+              value: dev
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 20

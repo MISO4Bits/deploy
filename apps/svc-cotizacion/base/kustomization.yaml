@@ -1,0 +1,6 @@
+namespace: svc-cotizacion
+
+resources:
+  - namespace.yaml
+  - deployment.yaml
+  - service.yaml
