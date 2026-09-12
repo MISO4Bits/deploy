@@ -1,0 +1,25 @@
+# Conecta apisix-ingress-controller con el Admin API real de APISIX
+# (Service "apisix-admin", instalado por iac-gcp-dev/modules/api-gateway).
+# La clave de autenticación se referencia por Secret (nunca por valor) —
+# generada por Terraform en ese mismo módulo (random_password), no la
+# clave de ejemplo pública que trae el chart.
+apiVersion: apisix.apache.org/v1alpha1
+kind: GatewayProxy
+metadata:
+  name: apisix-config
+  namespace: api-gateway
+spec:
+  provider:
+    type: ControlPlane
+    controlPlane:
+      mode: apisix-standalone
+      service:
+        name: apisix-admin
+        port: 9180
+      auth:
+        type: AdminKey
+        adminKey:
+          valueFrom:
+            secretKeyRef:
+              name: apisix-admin-key
+              key: admin-key

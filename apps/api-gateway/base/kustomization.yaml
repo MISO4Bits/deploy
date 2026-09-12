@@ -1,0 +1,16 @@
+# Sin namespace.yaml a propósito: el namespace "api-gateway" ya lo crea
+# iac-gcp-dev/modules/api-gateway (Terraform) antes de instalar APISIX —
+# declararlo también aquí duplicaría su gestión entre dos herramientas.
+#
+# Sin el campo `namespace:` de Kustomize a propósito: el transformer no
+# reconoce a GatewayClass como cluster-scoped (le agrega metadata.namespace
+# igual, lo cual es inválido — confirmado con `kubectl kustomize` antes de
+# escribir esto) y no hay forma limpia de excluir un recurso puntual de
+# ese transformer. Cada manifiesto namespaced trae su propio
+# metadata.namespace explícito en vez de depender de esto.
+
+resources:
+  - gatewayclass.yaml
+  - gatewayproxy.yaml
+  - gateway-internal.yaml
+  - gateway-external.yaml

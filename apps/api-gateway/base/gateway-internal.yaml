@@ -1,0 +1,53 @@
+# Gateway "lógico" que representa la instancia de APISIX ante
+# apisix-ingress-controller — no expone nada por sí solo (eso lo hace
+# gateway-external.yaml, el Gateway real de GKE con IP fija). Este es el
+# punto donde el controller aplica la configuración real (rutas, plugins)
+# que empuja al Admin API de APISIX.
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: apisix
+  namespace: api-gateway
+spec:
+  gatewayClassName: apisix
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+  infrastructure:
+    parametersRef:
+      group: apisix.apache.org
+      kind: GatewayProxy
+      name: apisix-config
+---
+# Prefijo /web -> bff-web (DI-011: ruteo por prefijo bajo un solo dominio
+# público, ver DI-011 y bff-web/openapi/openapi.yaml). El backend de
+# bff-web vive en otro namespace (bff-web) — permitido por el
+# ReferenceGrant en deploy/apps/bff-web/base/referencegrant.yaml.
+#
+# URLRewrite: bff-web no conoce el prefijo /web (sus rutas reales son
+# /v1/registro, /v1/sesiones, etc., ver su openapi.yaml) — se quita el
+# prefijo antes de reenviar.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: bff-web
+  namespace: api-gateway
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /web
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: bff-web
+          namespace: bff-web
+          port: 80

@@ -6,5 +6,4 @@ resources:
   - secretproviderclass.yaml
   - deployment.yaml
   - service.yaml
-  - gateway.yaml
-  - healthcheckpolicy.yaml
+  - referencegrant.yaml

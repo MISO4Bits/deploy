@@ -1,0 +1,53 @@
+# Único frente público del ambiente (DI-011) — antes vivía en
+# deploy/apps/bff-web/base/gateway.yaml, movido aquí porque la IP fija y
+# el certificado ya no son de bff-web: son del API Gateway. Ningún BFF ni
+# la API de socios tienen o van a tener Gateway propio.
+#
+# Gateway API de GKE (gke-l7-global-external-managed crea un Global
+# External Application Load Balancer).
+#
+# IP fija (no efímera): referencia por nombre la IP reservada en
+# iac-gcp-dev/persistent/ (estado de Terraform separado que nunca se
+# destruye). El nombre físico del recurso ("bff-web-dev") es heredado —
+# ver el comentario en persistent/main.tf, cambiarlo forzaría destruir y
+# crear una IP nueva.
+#
+# Certificado gestionado vía Certificate Manager (anotación
+# networking.gke.io/certmap: edge-dev-map, no tls.certificateRefs — son
+# mecanismos excluyentes), para dev.solventa4bits.com (DI-010). Sin
+# bloque tls en el listener HTTPS: la doc oficial de GKE (Secure a
+# Gateway) lo omite a propósito cuando se usa certmap — la regla CEL del
+# CRD Gateway v1 (certificateRefs>0 || options>0 si mode=Terminate) solo
+# se activa si el objeto tls existe; omitirlo evita esa validación.
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: edge
+  namespace: api-gateway
+  annotations:
+    networking.gke.io/certmap: edge-dev-map
+spec:
+  gatewayClassName: gke-l7-global-external-managed
+  addresses:
+    - type: NamedAddress
+      value: bff-web-dev
+  listeners:
+    - name: https
+      protocol: HTTPS
+      port: 443
+      allowedRoutes:
+        kinds:
+          - kind: HTTPRoute
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: edge
+  namespace: api-gateway
+spec:
+  parentRefs:
+    - name: edge
+  rules:
+    - backendRefs:
+        - name: apisix-gateway
+          port: 80

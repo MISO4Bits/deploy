@@ -1,0 +1,20 @@
+# bff-web ya no tiene Gateway propio (DI-011) — queda como Service interno
+# puro. El único punto de entrada público es el API Gateway (APISIX,
+# deploy/apps/api-gateway/), cuyo HTTPRoute vive en el namespace
+# api-gateway y necesita referenciar el Service de bff-web desde ahí.
+# Gateway API exige un ReferenceGrant explícito en el namespace de destino
+# para permitir una referencia cruzada de namespace — sin esto, el
+# HTTPRoute de api-gateway no puede resolver este backend.
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: allow-api-gateway
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: api-gateway
+  to:
+    - group: ""
+      kind: Service
+      name: bff-web
