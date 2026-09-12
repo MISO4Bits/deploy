@@ -43,6 +43,13 @@ spec:
       port: 443
       tls:
         mode: Terminate
+        # No hace nada por sí solo — el certificado real lo resuelve la
+        # anotación networking.gke.io/certmap de arriba. Esta entrada solo
+        # existe porque la regla de validación del CRD Gateway v1 exige
+        # que tls.options no esté vacío cuando mode=Terminate (confirmado
+        # leyendo la regla CEL real: certificateRefs > 0 || options > 0).
+        options:
+          networking.gke.io/pre-shared-cert-placeholder: "true"
       allowedRoutes:
         kinds:
           - kind: HTTPRoute
