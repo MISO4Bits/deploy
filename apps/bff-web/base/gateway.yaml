@@ -1,22 +1,48 @@
 # Expone BFF Web con una dirección pública estable dentro del cluster
 # (Gateway API de GKE, gke-l7-global-external-managed crea un Global
-# External Application Load Balancer). La dirección se asigna en cuanto
-# este Gateway se sincroniza, sin importar si el Deployment ya tiene una
-# imagen real corriendo detrás — eso es justo lo que se necesita para el
-# x-google-backend del API Gateway en iac-gcp-dev/modules/ingress.
+# External Application Load Balancer). Es lo que llama el API Gateway de
+# iac-gcp-dev/modules/ingress vía x-google-backend — API Gateway solo
+# puede llamar direcciones públicas, no tiene conectividad privada a VPCs.
 #
-# Dev por ahora: HTTP plano, sin dominio ni certificado propios. Revisar
-# para iac-gcp-prod — ese tramo interno sí necesita TLS.
+# IP fija (no efímera): referencia por nombre la IP reservada en
+# iac-gcp-dev/persistent/ (estado de Terraform separado que nunca se
+# destruye). Se evaluó reservarla en iac-gcp-admin en vez de en
+# solventa-dev — descartado, el Gateway de GKE no acepta direcciones
+# estáticas de otro proyecto (confirmado por experimento).
+#
+# Certificado gestionado vía Certificate Manager (anotación
+# networking.gke.io/certmap, no tls.certificateRefs — son mecanismos
+# excluyentes) — también creado en persistent/, para el dominio
+# bff-web.dev.solventa4bits.com.
+#
+# El listener HTTP se mantiene temporalmente mientras el certificado pasa
+# de PROVISIONING a ACTIVE (necesita el registro DNS ya apuntando a la IP
+# y este Gateway sirviendo tráfico real). Quitar en cuanto se confirme que
+# HTTPS ya funciona — el plan es que el tramo API Gateway → bff-web quede
+# cifrado, no en texto plano.
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: bff-web
+  annotations:
+    networking.gke.io/certmap: bff-web-dev-map
 spec:
   gatewayClassName: gke-l7-global-external-managed
+  addresses:
+    - type: NamedAddress
+      value: bff-web-dev
   listeners:
     - name: http
       protocol: HTTP
       port: 80
+      allowedRoutes:
+        kinds:
+          - kind: HTTPRoute
+    - name: https
+      protocol: HTTPS
+      port: 443
+      tls:
+        mode: Terminate
       allowedRoutes:
         kinds:
           - kind: HTTPRoute
