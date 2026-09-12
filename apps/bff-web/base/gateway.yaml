@@ -23,7 +23,12 @@ kind: Gateway
 metadata:
   name: bff-web
   annotations:
-    networking.gke.io/certmap: bff-web-dev-map
+    # Nombre nuevo (era bff-web-dev-map): esta IP/certificado ya no son de
+    # bff-web, son del punto de entrada único del ambiente (DI-011). Este
+    # Gateway se moverá a deploy/apps/api-gateway/ cuando exista ese app —
+    # por ahora sigue aquí para no dejar el ambiente sin entrada mientras
+    # se construye APISIX.
+    networking.gke.io/certmap: edge-dev-map
 spec:
   gatewayClassName: gke-l7-global-external-managed
   addresses:
