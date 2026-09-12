@@ -1,7 +1,10 @@
 resources:
-  - ../../base
+- ../../base
 
 # Tag real de este ambiente — ver la misma nota en apps/bff-web/overlays/dev.
 images:
-  - name: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-core
-    newTag: develop
+- name: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-core
+  newName: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-core
+  newTag: sha-e59ca43
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
