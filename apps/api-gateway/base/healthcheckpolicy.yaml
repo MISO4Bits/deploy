@@ -1,0 +1,28 @@
+# Mismo problema que ya se resolvió antes para bff-web (y se quitó de ahí
+# al mover el Gateway externo aquí): el health check que genera el
+# balanceador de carga para el backend "apisix-gateway" prueba por
+# defecto la ruta "/" en el puerto 80 (plano de datos de APISIX, 9080) —
+# sin una ApisixRoute real para "/", eso da 404 y el balanceador marca el
+# backend como no sano, devolviendo 503 al cliente aunque el pod esté
+# Ready según Kubernetes.
+#
+# Se apunta en cambio al puerto de control de APISIX (7085), a la misma
+# ruta que ya usa el readinessProbe de Kubernetes (/status/ready) — ese sí
+# devuelve 200 sin depender de que exista una ruta configurada para "/".
+apiVersion: networking.gke.io/v1
+kind: HealthCheckPolicy
+metadata:
+  name: apisix-gateway
+  namespace: api-gateway
+spec:
+  targetRef:
+    group: ""
+    kind: Service
+    name: apisix-gateway
+  default:
+    config:
+      type: HTTP
+      httpHealthCheck:
+        portSpecification: USE_FIXED_PORT
+        port: 7085
+        requestPath: /status/ready
