@@ -44,6 +44,11 @@ spec:
             # puerto 80 -> containerPort 8080 del pod).
             - name: BFF_CORE_BASE_URL
               value: http://svc-core.svc-core.svc.cluster.local
+            # DNS interno del Service de svc-cotizacion (namespace
+            # svc-cotizacion, EXP-01/BITS-81). svc-cotizacion cae a tarifa
+            # estandar si Perfilamiento no responde — no bloquea la cotización.
+            - name: BFF_COTIZACION_BASE_URL
+              value: http://svc-cotizacion.svc-cotizacion.svc.cluster.local
           volumeMounts:
             - name: identity-platform-secret
               mountPath: /var/secrets
