@@ -49,6 +49,12 @@ spec:
             # estandar si Perfilamiento no responde — no bloquea la cotización.
             - name: BFF_COTIZACION_BASE_URL
               value: http://svc-cotizacion.svc-cotizacion.svc.cluster.local
+            # Observabilidad (DI-008): activa el SDK de OpenTelemetry
+            # (deshabilitado por defecto en config.py). Exporta hacia el
+            # receptor de Alloy dentro del mismo cluster (namespace
+            # observability, ver iac-gcp-dev/modules/observability).
+            - name: BFF_OTEL_ENABLED
+              value: "true"
           volumeMounts:
             - name: identity-platform-secret
               mountPath: /var/secrets
