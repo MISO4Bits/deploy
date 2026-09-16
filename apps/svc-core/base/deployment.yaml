@@ -34,6 +34,12 @@ spec:
             # (default), sin Pub/Sub real todavía.
             - name: CORE_ENVIRONMENT
               value: dev
+            # Observabilidad (DI-008): activa el SDK de OpenTelemetry
+            # (deshabilitado por defecto en config.py). Exporta hacia el
+            # receptor de Alloy dentro del mismo cluster (namespace
+            # observability, ver iac-gcp-dev/modules/observability).
+            - name: CORE_OTEL_ENABLED
+              value: "true"
           resources:
             requests:
               cpu: 250m

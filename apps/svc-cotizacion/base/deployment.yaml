@@ -32,6 +32,12 @@ spec:
             # existe en el código de svc-cotizacion.
             - name: COT_ENVIRONMENT
               value: dev
+            # Observabilidad (DI-008): activa el SDK de OpenTelemetry
+            # (deshabilitado por defecto en config.py). Exporta hacia el
+            # receptor de Alloy dentro del mismo cluster (namespace
+            # observability, ver iac-gcp-dev/modules/observability).
+            - name: COT_OTEL_ENABLED
+              value: "true"
           resources:
             requests:
               cpu: 250m
