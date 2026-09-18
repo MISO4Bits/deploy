@@ -1,5 +1,6 @@
 # Solo interno — simula Open Finance y Open Data para el componente
-# Perfilamiento (todavía sin código propio). Nunca se expone públicamente.
+# Perfilamiento (deploy/apps/svc-perfilamiento, PERF_ADAPTERS=http). Nunca
+# se expone públicamente.
 apiVersion: v1
 kind: Service
 metadata:

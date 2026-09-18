@@ -27,11 +27,20 @@ spec:
             - name: http
               containerPort: 8080
           env:
-            # Adaptador "fake" (default de la imagen, todo en memoria) para
-            # Open Finance/Open Data — el adaptador de persistencia real
-            # todavía no se activa por overlay (fase posterior).
+            # El adaptador de persistencia real todavía no se activa por
+            # overlay (fase posterior) — el repositorio de perfiles sigue
+            # en memoria pase lo que pase con PERF_ADAPTERS.
             - name: PERF_ENVIRONMENT
               value: dev
+            # Open Finance/Open Data reales apuntando al mock de WireMock
+            # (deploy/apps/wiremock) — mismo pod para los dos, distinguido
+            # por prefijo de ruta.
+            - name: PERF_ADAPTERS
+              value: http
+            - name: PERF_OPEN_FINANCE_BASE_URL
+              value: http://wiremock.wiremock.svc.cluster.local/open-finance
+            - name: PERF_OPEN_DATA_BASE_URL
+              value: http://wiremock.wiremock.svc.cluster.local/open-data
             # Publicación real de PerfilCalculado + consumo real de
             # ConsentimientoOtorgado/ConsentimientoRevocado vía Pub/Sub —
             # tópico y suscripción aprovisionados en
