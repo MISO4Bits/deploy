@@ -14,6 +14,7 @@ spec:
       labels:
         app: svc-perfilamiento
     spec:
+      serviceAccountName: svc-perfilamiento
       containers:
         - name: svc-perfilamiento
           # Tag placeholder — cada overlay lo sobrescribe con el bloque
@@ -26,12 +27,21 @@ spec:
             - name: http
               containerPort: 8080
           env:
-            # Adaptador "fake" (default de la imagen, todo en memoria) —
-            # los adaptadores HTTP reales hacia WireMock (Open Finance /
-            # Open Data) y de persistencia/eventos todavía no se activan
-            # por overlay.
+            # Adaptador "fake" (default de la imagen, todo en memoria) para
+            # Open Finance/Open Data — el adaptador de persistencia real
+            # todavía no se activa por overlay (fase posterior).
             - name: PERF_ENVIRONMENT
               value: dev
+            # Publicación real de PerfilCalculado + consumo real de
+            # ConsentimientoOtorgado/ConsentimientoRevocado vía Pub/Sub —
+            # tópico y suscripción aprovisionados en
+            # iac-gcp-dev/modules/pubsub. Requiere el serviceAccountName de
+            # arriba (permiso de publicador + suscriptor vía Workload
+            # Identity Federation).
+            - name: PERF_EVENT_BACKEND
+              value: pubsub
+            - name: PERF_PUBSUB_PROJECT_ID
+              value: solventa-dev
             # Observabilidad (DI-008): activa el SDK de OpenTelemetry
             # (deshabilitado por defecto en config.py). Exporta hacia el
             # receptor de Alloy dentro del mismo cluster (namespace

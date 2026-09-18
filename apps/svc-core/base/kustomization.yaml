@@ -2,5 +2,6 @@ namespace: svc-core
 
 resources:
   - namespace.yaml
+  - serviceaccount.yaml
   - deployment.yaml
   - service.yaml

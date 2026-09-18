@@ -14,6 +14,7 @@ spec:
       labels:
         app: svc-core
     spec:
+      serviceAccountName: svc-core
       containers:
         - name: svc-core
           # Tag placeholder — cada overlay lo sobrescribe con el bloque
@@ -30,10 +31,18 @@ spec:
             # — efímera, se pierde en cada restart del pod. El adaptador de
             # Cloud Spanner (ya aprovisionado en modules/spanner) todavía no
             # existe en el código de svc-core (pendiente, ver
-            # component-docs-and-repos). Publicación de eventos: "logging"
-            # (default), sin Pub/Sub real todavía.
+            # component-docs-and-repos).
             - name: CORE_ENVIRONMENT
               value: dev
+            # Publicación real de ConsentimientoOtorgado/ConsentimientoRevocado
+            # (y ClienteRegistrado) hacia Pub/Sub — tópico compartido
+            # aprovisionado en iac-gcp-dev/modules/pubsub. Requiere el
+            # serviceAccountName de arriba (permiso de publicador vía
+            # Workload Identity Federation).
+            - name: CORE_EVENT_BACKEND
+              value: pubsub
+            - name: CORE_PUBSUB_PROJECT_ID
+              value: solventa-dev
             # Observabilidad (DI-008): activa el SDK de OpenTelemetry
             # (deshabilitado por defecto en config.py). Exporta hacia el
             # receptor de Alloy dentro del mismo cluster (namespace
