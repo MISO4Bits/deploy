@@ -1,0 +1,25 @@
+namespace: wiremock
+
+resources:
+  - namespace.yaml
+  - deployment.yaml
+  - service.yaml
+
+# Un archivo por escenario (más fácil de revisar en PR y de extender según
+# necesite cada experimento) — kustomize genera el ConfigMap con el nombre
+# de archivo como key y reescribe automáticamente la referencia en
+# deployment.yaml al hash del contenido (fuerza un rollout si cambian los
+# mappings).
+configMapGenerator:
+  - name: wiremock-mappings
+    files:
+      - mappings/open-finance-david-alto-riesgo.json
+      - mappings/open-finance-daniel-bajo-riesgo.json
+      - mappings/open-finance-timeout.json
+      - mappings/open-finance-error.json
+      - mappings/open-finance-default.json
+      - mappings/open-data-david-alto-riesgo.json
+      - mappings/open-data-daniel-bajo-riesgo.json
+      - mappings/open-data-timeout.json
+      - mappings/open-data-error.json
+      - mappings/open-data-default.json

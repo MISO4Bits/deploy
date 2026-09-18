@@ -1,0 +1,19 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-data/v1/perfil-sociodemografico",
+    "bodyPatterns": [
+      { "equalToJson": "{\"numeroDocumento\": \"9999999999\"}", "ignoreExtraElements": true }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "fixedDelayMilliseconds": 5000,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": { "numeroDocumento": "9999999999" }
+  },
+  "metadata": {
+    "escenario": "EXP-02 — Open Data lento (delay 5s, para disparar el timeout de 500ms por fuente)"
+  }
+}

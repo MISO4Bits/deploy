@@ -1,0 +1,24 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-finance/v1/perfil-crediticio",
+    "bodyPatterns": [
+      { "equalToJson": "{\"numeroDocumento\": \"1000000001\"}", "ignoreExtraElements": true }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "numeroDocumento": "1000000001",
+      "scoreCrediticio": 420,
+      "nivelEndeudamiento": "ALTO",
+      "historialPagos": "IRREGULAR",
+      "productosActivos": 5
+    }
+  },
+  "metadata": {
+    "escenario": "David — cliente de alto riesgo (demo, documento de prueba 1000000001)"
+  }
+}

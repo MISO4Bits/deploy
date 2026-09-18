@@ -1,0 +1,19 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-data/v1/perfil-sociodemografico"
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "estrato": 3,
+      "ubicacion": { "departamento": "Cundinamarca", "ciudad": "Bogotá" },
+      "categoriaSaludActuarial": "ESTANDAR"
+    }
+  },
+  "metadata": {
+    "escenario": "default — cualquier numeroDocumento sin un mapping específico (riesgo medio, sin degradación)"
+  }
+}

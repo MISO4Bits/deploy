@@ -1,0 +1,20 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-finance/v1/perfil-crediticio"
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "scoreCrediticio": 650,
+      "nivelEndeudamiento": "MEDIO",
+      "historialPagos": "BUENO",
+      "productosActivos": 2
+    }
+  },
+  "metadata": {
+    "escenario": "default — cualquier numeroDocumento sin un mapping específico (riesgo medio, sin degradación)"
+  }
+}

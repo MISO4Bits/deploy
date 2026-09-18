@@ -1,0 +1,15 @@
+# Solo interno — simula Open Finance y Open Data para el componente
+# Perfilamiento (todavía sin código propio). Nunca se expone públicamente.
+apiVersion: v1
+kind: Service
+metadata:
+  name: wiremock
+  labels:
+    app: wiremock
+spec:
+  selector:
+    app: wiremock
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

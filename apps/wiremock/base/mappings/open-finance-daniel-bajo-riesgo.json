@@ -1,0 +1,24 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-finance/v1/perfil-crediticio",
+    "bodyPatterns": [
+      { "equalToJson": "{\"numeroDocumento\": \"1000000002\"}", "ignoreExtraElements": true }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "numeroDocumento": "1000000002",
+      "scoreCrediticio": 810,
+      "nivelEndeudamiento": "BAJO",
+      "historialPagos": "EXCELENTE",
+      "productosActivos": 1
+    }
+  },
+  "metadata": {
+    "escenario": "Daniel — cliente de riesgo mínimo (demo, documento de prueba 1000000002)"
+  }
+}

@@ -1,0 +1,65 @@
+# Mock de los sistemas externos "Open Finance" y "Open Data" que consume
+# el componente Perfilamiento (OpenFinancePort / OpenDataPort) — para
+# efecto académico, no hay integración real con ningún proveedor. Una
+# sola instancia sirve ambas integraciones, distinguidas por el prefijo
+# de path de cada mapping (/open-finance/* vs /open-data/*); WireMock
+# permite inyectar fallas por mapping individual, así que compartir la
+# instancia no impide simular "Open Data caído, Open Finance sano".
+#
+# Los mappings (request → response, por escenario) viven en
+# base/mappings/*.json y se cargan vía ConfigMap — ver kustomization.yaml
+# (configMapGenerator). WireMock los lee automáticamente desde
+# /home/wiremock/mappings al arrancar, sin necesidad de tocar la Admin
+# API en tiempo de ejecución.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wiremock
+  labels:
+    app: wiremock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wiremock
+  template:
+    metadata:
+      labels:
+        app: wiremock
+    spec:
+      containers:
+        - name: wiremock
+          image: wiremock/wiremock:3.13.2
+          imagePullPolicy: IfNotPresent
+          args:
+            - "--port=8080"
+          ports:
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: mappings
+              mountPath: /home/wiremock/mappings
+              readOnly: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          readinessProbe:
+            httpGet:
+              path: /__admin/health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /__admin/health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 20
+      volumes:
+        - name: mappings
+          configMap:
+            name: wiremock-mappings
