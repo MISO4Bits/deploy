@@ -35,14 +35,17 @@ spec:
             - name: CORE_ENVIRONMENT
               value: dev
             # Publicación real de ConsentimientoOtorgado/ConsentimientoRevocado
-            # (y ClienteRegistrado) hacia Pub/Sub — tópico compartido
-            # aprovisionado en iac-gcp-dev/modules/pubsub. Requiere el
-            # serviceAccountName de arriba (permiso de publicador vía
-            # Workload Identity Federation).
+            # (y ClienteRegistrado) hacia Pub/Sub — tópico compartido ya
+            # aprovisionado en iac-gcp-dev/modules/pubsub (permiso de
+            # publicador vía el serviceAccountName de arriba). TEMPORALMENTE
+            # DESACTIVADO (2026-09-18): la imagen hoy publicada en `develop`
+            # todavía no incluye la dependencia google-cloud-pubsub — con
+            # CORE_EVENT_BACKEND=pubsub el pod entra en CrashLoopBackOff
+            # (ImportError al construir PubSubEventPublisher). Reactivar
+            # después de mergear feature/BITS-105_pubsub-consentimiento y
+            # que el write-back de CI actualice el tag de esta imagen.
             - name: CORE_EVENT_BACKEND
-              value: pubsub
-            - name: CORE_PUBSUB_PROJECT_ID
-              value: solventa-dev
+              value: logging
             # Observabilidad (DI-008): activa el SDK de OpenTelemetry
             # (deshabilitado por defecto en config.py). Exporta hacia el
             # receptor de Alloy dentro del mismo cluster (namespace
