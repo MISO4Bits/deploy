@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: svc-perfilamiento
+  labels:
+    app: svc-perfilamiento
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: svc-perfilamiento
+  template:
+    metadata:
+      labels:
+        app: svc-perfilamiento
+    spec:
+      containers:
+        - name: svc-perfilamiento
+          # Tag placeholder — cada overlay lo sobrescribe con el bloque
+          # `images:` de su kustomization.yaml (DI-007, 5.2). No dejar un
+          # tag de ambiente real aquí: base/ es compartido entre
+          # overlays/dev y overlays/prod.
+          image: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-perfilamiento:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            # Adaptador "fake" (default de la imagen, todo en memoria) —
+            # los adaptadores HTTP reales hacia WireMock (Open Finance /
+            # Open Data) y de persistencia/eventos todavía no se activan
+            # por overlay.
+            - name: PERF_ENVIRONMENT
+              value: dev
+            # Observabilidad (DI-008): activa el SDK de OpenTelemetry
+            # (deshabilitado por defecto en config.py). Exporta hacia el
+            # receptor de Alloy dentro del mismo cluster (namespace
+            # observability, ver iac-gcp-dev/modules/observability).
+            - name: PERF_OTEL_ENABLED
+              value: "true"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 20

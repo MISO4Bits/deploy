@@ -1,0 +1,15 @@
+resources:
+- ../../base
+
+# Tag real de este ambiente — ver la misma nota en apps/svc-cotizacion/overlays/dev.
+# El job `image` del pipeline de svc-perfilamiento ya construyó y publicó
+# esta imagen (sha-69fcaae, commit 69fcaae de develop); el job `deploy`
+# falló en el mismo run porque esta carpeta todavía no existía. A partir
+# de aquí, el write-back de CI (DI-007, 5.2) mantiene este tag al día en
+# cada push a develop.
+images:
+- name: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-perfilamiento
+  newName: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-perfilamiento
+  newTag: sha-69fcaae
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
