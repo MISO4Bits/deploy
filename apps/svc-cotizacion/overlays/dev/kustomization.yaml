@@ -8,6 +8,6 @@ resources:
 images:
 - name: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-cotizacion
   newName: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-cotizacion
-  newTag: sha-d166870
+  newTag: sha-69b341b
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
