@@ -55,6 +55,12 @@ spec:
             # observability, ver iac-gcp-dev/modules/observability).
             - name: BFF_OTEL_ENABLED
               value: "true"
+            # Ampliado de 1h (default) a 4h para EXP-01 (punto de quiebre de
+            # svc-cotizacion con k6, 2026-09-19): un solo usuario/token
+            # reutilizado durante todo el ramp de 500 a 50.000
+            # cotizaciones/min, sin lógica de refresco a mitad de prueba.
+            - name: BFF_SESSION_TTL_SECONDS
+              value: "14400"
           volumeMounts:
             - name: identity-platform-secret
               mountPath: /var/secrets
