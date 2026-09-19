@@ -1,0 +1,15 @@
+# Solo interno — el caché de perfiles de Cotización nunca se expone fuera
+# del cluster.
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    app: redis
+spec:
+  selector:
+    app: redis
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: redis

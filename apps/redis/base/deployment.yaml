@@ -1,0 +1,54 @@
+# Caché del perfil de riesgo para el camino Cotización -> Perfilamiento
+# (decisión 2026-09-19) — pod dentro del mismo cluster en vez de un
+# servicio gestionado (Memorystore): mismo beneficio de caché compartido
+# entre réplicas de svc-cotizacion, sin costo continuo de un servicio
+# gestionado ni la complejidad de red (Private Service Access/conector
+# VPC) que Memorystore necesita en GKE Autopilot.
+#
+# Puramente un acelerador de latencia, nunca la fuente de verdad — sigue
+# siendo Perfilamiento/Spanner. Una sola réplica, sin persistencia
+# (efímero a propósito): si el pod se reinicia, el caché queda frío y
+# cada lectura cae a Perfilamiento de nuevo — degradación aceptable,
+# nunca debe romper el flujo de crear una cotización (ver
+# svc-cotizacion/app/adapters/redis_cache.py). Sin autenticación: no se
+# expone fuera del cluster, mismo criterio que deploy/apps/wiremock.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:8.2.9
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: redis
+              containerPort: 6379
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          readinessProbe:
+            tcpSocket:
+              port: redis
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: redis
+            initialDelaySeconds: 10
+            periodSeconds: 20

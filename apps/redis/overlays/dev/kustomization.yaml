@@ -1,0 +1,7 @@
+resources:
+- ../../base
+
+# Sin bloque `images:` — imagen de terceros (redis:8.2.9), no hay pipeline
+# de CI propio que la construya, mismo criterio que apps/wiremock.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
