@@ -65,13 +65,22 @@ spec:
             - name: identity-platform-secret
               mountPath: /var/secrets
               readOnly: true
+          # Bursting habilitado (2026-09-19, para EXP-01): requests se queda
+          # en el piso de Autopilot hasta que tengamos uso real medido bajo
+          # carga (ver k6/exp-01-punto-de-quiebre.js en svc-cotizacion) —
+          # limits por encima permite absorber picos sin throttling de CPU,
+          # que es justo lo que distorsionaría el punto de quiebre que
+          # estamos buscando. Sin costo adicional: Autopilot factura por
+          # requests, no por el techo de limits (ver GKE docs, "Configure
+          # Pod bursting in GKE"). Requiere GKE >= 1.30.2-gke.1394000 (este
+          # cluster corre 1.35.8, ya cumple).
           resources:
             requests:
               cpu: 250m
               memory: 512Mi
             limits:
-              cpu: 250m
-              memory: 512Mi
+              cpu: 1000m
+              memory: 1Gi
           readinessProbe:
             httpGet:
               path: /health

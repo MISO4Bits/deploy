@@ -59,13 +59,20 @@ spec:
             # observability, ver iac-gcp-dev/modules/observability).
             - name: COT_OTEL_ENABLED
               value: "true"
+          # Bursting habilitado (2026-09-19, para EXP-01): requests se queda
+          # en el piso de Autopilot hasta que tengamos uso real medido bajo
+          # carga (ver k6/exp-01-punto-de-quiebre.js) — limits por encima
+          # permite absorber picos sin throttling de CPU, que es justo lo
+          # que distorsionaría el punto de quiebre que estamos buscando.
+          # Sin costo adicional: Autopilot factura por requests, no por el
+          # techo de limits (ver GKE docs, "Configure Pod bursting in GKE").
           resources:
             requests:
               cpu: 250m
               memory: 512Mi
             limits:
-              cpu: 250m
-              memory: 512Mi
+              cpu: 1000m
+              memory: 1Gi
           readinessProbe:
             httpGet:
               path: /health
