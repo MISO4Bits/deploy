@@ -17,6 +17,7 @@ configMapGenerator:
       - mappings/open-finance-daniel-bajo-riesgo.json
       - mappings/open-finance-timeout.json
       - mappings/open-finance-error.json
+      - mappings/open-finance-solo-error.json
       - mappings/open-finance-default.json
       - mappings/open-data-david-alto-riesgo.json
       - mappings/open-data-daniel-bajo-riesgo.json

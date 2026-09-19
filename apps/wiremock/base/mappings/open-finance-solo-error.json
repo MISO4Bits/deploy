@@ -1,0 +1,18 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-finance/v1/perfil-crediticio",
+    "bodyPatterns": [
+      { "equalToJson": "{\"numeroDocumento\": \"7777777777\"}", "ignoreExtraElements": true }
+    ]
+  },
+  "response": {
+    "status": 503,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": { "error": "Servicio no disponible (simulado, EXP-02)" }
+  },
+  "metadata": {
+    "escenario": "EXP-02 — SOLO Open Finance cae (503); Open Data responde normal con su mapping default. Prueba la degradación parcial (BITS-106 AC-2)."
+  }
+}
