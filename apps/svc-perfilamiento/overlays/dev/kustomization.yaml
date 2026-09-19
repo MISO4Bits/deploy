@@ -10,6 +10,6 @@ resources:
 images:
 - name: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-perfilamiento
   newName: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-perfilamiento
-  newTag: sha-988c0f6
+  newTag: sha-2d6df4c
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
