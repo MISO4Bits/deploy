@@ -6,6 +6,18 @@ metadata:
     app: bff-web
 spec:
   replicas: 1
+  # Reemplaza el pod viejo en su propio hueco en vez de pedir uno extra
+  # (maxSurge: 0). El cluster de dev está al tope de capacidad (cuota global
+  # de vCPU y de SSD regional del proyecto, pods/memoria de los 2 nodos
+  # comprometidos casi al 100%): con el default (surge 25%) el pod nuevo
+  # quedaba Pending indefinido y el rollout nunca terminaba (visto
+  # 2026-09-19). Costo: unos segundos sin bff-web en cada despliegue, con
+  # una sola réplica en dev. Quitarlo cuando haya capacidad/HPA.
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: bff-web
