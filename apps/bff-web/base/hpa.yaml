@@ -1,0 +1,35 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: bff-web
+  labels:
+    app: bff-web
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: bff-web
+  minReplicas: 1
+  # Tope de 2 por capacidad del cluster de dev: la cuota regional de SSD
+  # (250 GB, sin aumento disponible) limita a 2 nodos, y cada nodo ya está
+  # cerca de su límite de 32 pods (2026-09-19). Subirlo solo si eso cambia.
+  maxReplicas: 2
+  metrics:
+    # La utilización se mide contra el REQUEST (250m), no contra el límite
+    # con bursting: 70% = ~175m por pod. Con ~0.16 núcleos por cada 1.000
+    # cotizaciones/min en bff-web (EXP-01), dispara cerca de 1.100/min.
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+        - type: Pods
+          value: 1
+          periodSeconds: 30
+    scaleDown:
+      stabilizationWindowSeconds: 300

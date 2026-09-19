@@ -5,7 +5,8 @@ metadata:
   labels:
     app: bff-web
 spec:
-  replicas: 1
+  # Sin `replicas`: lo gobierna el HorizontalPodAutoscaler (hpa.yaml). Fijarlo
+  # aquí haría que Argo CD lo devolviera a ese valor en cada sincronización.
   # Reemplaza el pod viejo en su propio hueco en vez de pedir uno extra
   # (maxSurge: 0). El cluster de dev está al tope de capacidad (cuota global
   # de vCPU y de SSD regional del proyecto, pods/memoria de los 2 nodos
