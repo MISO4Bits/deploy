@@ -1,0 +1,11 @@
+resources:
+- ../../base
+
+# Hasta que CI publique la primera imagen, el pod queda en ImagePullBackOff
+# (mismo caso que svc-cotizacion). El job deploy reemplaza este tag por sha-<corto>.
+images:
+- name: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/fe-web
+  newName: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/fe-web
+  newTag: develop
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
