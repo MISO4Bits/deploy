@@ -51,3 +51,22 @@ spec:
         - name: bff-web
           namespace: bff-web
           port: 80
+          
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: fe-web
+  namespace: api-gateway
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: fe-web
+          namespace: fe-web
+          port: 80
