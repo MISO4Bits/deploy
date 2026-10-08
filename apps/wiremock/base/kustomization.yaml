@@ -16,6 +16,7 @@ configMapGenerator:
       - mappings/open-finance-david-alto-riesgo.json
       - mappings/open-finance-daniel-bajo-riesgo.json
       - mappings/open-finance-sofia-riesgo-medio.json
+      - mappings/open-finance-nicolas-sin-hipotecario.json
       - mappings/open-finance-timeout.json
       - mappings/open-finance-error.json
       - mappings/open-finance-solo-error.json

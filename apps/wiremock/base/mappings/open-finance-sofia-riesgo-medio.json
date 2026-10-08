@@ -46,6 +46,20 @@
           "monthlyPayment": 480000,
           "daysPastDue": 32,
           "delinquencyStatus": "delinquent_30_59"
+        },
+        {
+          "accountId": "ACC-LI-SOF-003",
+          "creditorName": "BBVA COLOMBIA S.A.",
+          "accountType": "personal_loan",
+          "status": "open",
+          "currency": "COP",
+          "originalAmount": 15000000,
+          "currentBalance": 9200000,
+          "monthlyPayment": 520000,
+          "termMonths": 36,
+          "remainingMonths": 20,
+          "daysPastDue": 0,
+          "delinquencyStatus": "current"
         }
       ]
     }

@@ -30,6 +30,18 @@
             "address": "Calle 100 # 15-20 Apto 503, Bogotá",
             "estimatedValue": 250000000
           }
+        },
+        {
+          "accountId": "ACC-TC-GEN-002",
+          "creditorName": "BANCOLOMBIA S.A.",
+          "accountType": "credit_card",
+          "status": "open",
+          "currency": "COP",
+          "currentBalance": 2100000,
+          "creditLimit": 6000000,
+          "monthlyPayment": 210000,
+          "daysPastDue": 0,
+          "delinquencyStatus": "current"
         }
       ]
     }
