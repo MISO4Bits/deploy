@@ -15,7 +15,79 @@
       "scoreCrediticio": 420,
       "nivelEndeudamiento": "ALTO",
       "historialPagos": "IRREGULAR",
-      "productosActivos": 5
+      "productosActivos": 5,
+      "tradelines": [
+        {
+          "accountId": "ACC-HIP-DAV-001",
+          "creditorName": "BANCO DE BOGOTÁ S.A.",
+          "accountType": "mortgage",
+          "status": "open",
+          "currency": "COP",
+          "originalAmount": 150000000,
+          "currentBalance": 142000000,
+          "monthlyPayment": 1480000,
+          "termMonths": 240,
+          "remainingMonths": 228,
+          "daysPastDue": 45,
+          "collateral": {
+            "type": "real_estate",
+            "address": "Calle 13 # 7-20 Casa 15, Soacha",
+            "estimatedValue": 165000000
+          }
+        },
+        {
+          "accountId": "ACC-TC-DAV-002",
+          "creditorName": "BANCO FALABELLA S.A.",
+          "accountType": "credit_card",
+          "status": "open",
+          "currency": "COP",
+          "currentBalance": 4600000,
+          "creditLimit": 5000000,
+          "monthlyPayment": 390000,
+          "daysPastDue": 62,
+          "delinquencyStatus": "delinquent_60_89"
+        },
+        {
+          "accountId": "ACC-LI-DAV-003",
+          "creditorName": "DAVIVIENDA S.A.",
+          "accountType": "personal_loan",
+          "status": "open",
+          "currency": "COP",
+          "originalAmount": 30000000,
+          "currentBalance": 24500000,
+          "monthlyPayment": 980000,
+          "termMonths": 48,
+          "remainingMonths": 38,
+          "daysPastDue": 35,
+          "delinquencyStatus": "delinquent_30_59"
+        },
+        {
+          "accountId": "ACC-VEH-DAV-004",
+          "creditorName": "BANCO DE OCCIDENTE S.A.",
+          "accountType": "auto_loan",
+          "status": "open",
+          "currency": "COP",
+          "originalAmount": 60000000,
+          "currentBalance": 41000000,
+          "monthlyPayment": 1350000,
+          "termMonths": 60,
+          "remainingMonths": 34,
+          "daysPastDue": 0,
+          "delinquencyStatus": "current"
+        },
+        {
+          "accountId": "ACC-TC-DAV-005",
+          "creditorName": "BANCOLOMBIA S.A.",
+          "accountType": "credit_card",
+          "status": "open",
+          "currency": "COP",
+          "currentBalance": 9800000,
+          "creditLimit": 10000000,
+          "monthlyPayment": 720000,
+          "daysPastDue": 0,
+          "delinquencyStatus": "current"
+        }
+      ]
     }
   },
   "metadata": {
