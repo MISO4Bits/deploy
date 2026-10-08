@@ -1,0 +1,9 @@
+namespace: bff-mobile
+
+resources:
+  - namespace.yaml
+  - serviceaccount.yaml
+  - secretproviderclass.yaml
+  - deployment.yaml
+  - service.yaml
+  - referencegrant.yaml

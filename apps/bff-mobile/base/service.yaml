@@ -1,0 +1,15 @@
+# Solo interno — el único frente público es el API Gateway (APISIX,
+# deploy/apps/api-gateway/), que enruta el prefijo /mobile hacia este Service.
+apiVersion: v1
+kind: Service
+metadata:
+  name: bff-mobile
+  labels:
+    app: bff-mobile
+spec:
+  selector:
+    app: bff-mobile
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

@@ -70,3 +70,32 @@ spec:
         - name: fe-web
           namespace: fe-web
           port: 80
+---
+# Prefijo /mobile -> bff-mobile (mismo esquema que /web, DI-011: ruteo por
+# prefijo bajo un solo dominio público). bff-mobile no conoce el prefijo
+# /mobile (sus rutas reales son /v1/sesiones, etc., ver su openapi.yaml): se
+# quita antes de reenviar. El backend vive en otro namespace (bff-mobile) —
+# permitido por el ReferenceGrant en deploy/apps/bff-mobile/base/referencegrant.yaml.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: bff-mobile
+  namespace: api-gateway
+spec:
+  parentRefs:
+    - name: apisix
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /mobile
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: bff-mobile
+          namespace: bff-mobile
+          port: 80
