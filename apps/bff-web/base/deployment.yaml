@@ -62,6 +62,12 @@ spec:
             # estandar si Perfilamiento no responde — no bloquea la cotización.
             - name: BFF_COTIZACION_BASE_URL
               value: http://svc-cotizacion.svc-cotizacion.svc.cluster.local
+            # DNS interno del Service de svc-productos (namespace
+            # svc-productos). Sirve los documentos legales del registro
+            # (GET /v1/documentos-legales); el registro depende de él para
+            # mostrar los textos antes de aceptar.
+            - name: BFF_PRODUCTOS_BASE_URL
+              value: http://svc-productos.svc-productos.svc.cluster.local
             # Observabilidad (DI-008): activa el SDK de OpenTelemetry
             # (deshabilitado por defecto en config.py). Exporta hacia el
             # receptor de Alloy dentro del mismo cluster (namespace

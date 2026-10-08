@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: svc-productos
+  labels:
+    app: svc-productos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: svc-productos
+  template:
+    metadata:
+      labels:
+        app: svc-productos
+    spec:
+      containers:
+        - name: svc-productos
+          # Tag placeholder — cada overlay lo sobrescribe con el bloque
+          # `images:` de su kustomization.yaml (DI-007, 5.2). No dejar un
+          # tag de ambiente real aquí: base/ es compartido entre
+          # overlays/dev y overlays/prod.
+          image: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-productos:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            # Persistencia SQLite dentro del contenedor (default de la app) —
+            # efímera, se pierde en cada restart del pod. No importa: al
+            # arrancar el servicio vuelve a cargar los documentos legales
+            # iniciales (es-CO) de app/seeds, de forma idempotente. Cuando se
+            # adopte Cloud Spanner (DI-009, base `productos` ya aprovisionada
+            # en modules/spanner) se cambia el adaptador, no este manifiesto.
+            - name: PRODUCTOS_ENVIRONMENT
+              value: dev
+            # Observabilidad (DI-008): activa el SDK de OpenTelemetry
+            # (deshabilitado por defecto en config.py). Exporta hacia el
+            # receptor de Alloy dentro del mismo cluster (namespace
+            # observability, ver iac-gcp-dev/modules/observability).
+            - name: PRODUCTOS_OTEL_ENABLED
+              value: "true"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 20
