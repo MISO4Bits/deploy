@@ -8,6 +8,6 @@ resources:
 images:
 - name: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/bff-web
   newName: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/bff-web
-  newTag: sha-930a38c
+  newTag: sha-1db7abe
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
