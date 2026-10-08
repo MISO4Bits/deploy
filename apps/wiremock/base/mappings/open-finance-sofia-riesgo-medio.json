@@ -1,0 +1,56 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-finance/v1/perfil-crediticio",
+    "bodyPatterns": [
+      { "equalToJson": "{\"numeroDocumento\": \"1000000003\"}", "ignoreExtraElements": true }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "numeroDocumento": "1000000003",
+      "scoreCrediticio": 612,
+      "nivelEndeudamiento": "MEDIO",
+      "historialPagos": "IRREGULAR",
+      "productosActivos": 3,
+      "tradelines": [
+        {
+          "accountId": "ACC-001-HIP-DAV",
+          "creditorName": "DAVIVIENDA S.A.",
+          "accountType": "mortgage",
+          "status": "open",
+          "currency": "COP",
+          "originalAmount": 220000000,
+          "currentBalance": 178500000,
+          "monthlyPayment": 3200000,
+          "termMonths": 240,
+          "remainingMonths": 165,
+          "daysPastDue": 0,
+          "collateral": {
+            "type": "real_estate",
+            "address": "Calle 170 # 52-30 Apto 402, Bogotá",
+            "estimatedValue": 260000000
+          }
+        },
+        {
+          "accountId": "ACC-003-CC-BLOMB",
+          "creditorName": "BANCOLOMBIA S.A.",
+          "accountType": "credit_card",
+          "status": "open",
+          "currency": "COP",
+          "currentBalance": 6700000,
+          "creditLimit": 8000000,
+          "monthlyPayment": 480000,
+          "daysPastDue": 32,
+          "delinquencyStatus": "delinquent_30_59"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "escenario": "Sofía — cliente de riesgo medio con mora de 32 días en tarjeta; produce aprobada con condiciones (demo, documento de prueba 1000000003)"
+  }
+}

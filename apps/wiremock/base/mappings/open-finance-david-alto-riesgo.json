@@ -15,7 +15,27 @@
       "scoreCrediticio": 420,
       "nivelEndeudamiento": "ALTO",
       "historialPagos": "IRREGULAR",
-      "productosActivos": 5
+      "productosActivos": 5,
+      "tradelines": [
+        {
+          "accountId": "ACC-HIP-DAV-001",
+          "creditorName": "BANCO DE BOGOTÁ S.A.",
+          "accountType": "mortgage",
+          "status": "open",
+          "currency": "COP",
+          "originalAmount": 150000000,
+          "currentBalance": 142000000,
+          "monthlyPayment": 1480000,
+          "termMonths": 240,
+          "remainingMonths": 228,
+          "daysPastDue": 45,
+          "collateral": {
+            "type": "real_estate",
+            "address": "Calle 13 # 7-20 Casa 15, Soacha",
+            "estimatedValue": 165000000
+          }
+        }
+      ]
     }
   },
   "metadata": {

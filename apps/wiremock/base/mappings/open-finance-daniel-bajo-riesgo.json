@@ -15,7 +15,27 @@
       "scoreCrediticio": 810,
       "nivelEndeudamiento": "BAJO",
       "historialPagos": "EXCELENTE",
-      "productosActivos": 1
+      "productosActivos": 1,
+      "tradelines": [
+        {
+          "accountId": "ACC-HIP-DAN-001",
+          "creditorName": "BANCOLOMBIA S.A.",
+          "accountType": "mortgage",
+          "status": "open",
+          "currency": "COP",
+          "originalAmount": 180000000,
+          "currentBalance": 98000000,
+          "monthlyPayment": 1650000,
+          "termMonths": 180,
+          "remainingMonths": 96,
+          "daysPastDue": 0,
+          "collateral": {
+            "type": "real_estate",
+            "address": "Carrera 7 # 120-45 Apto 801, Bogotá",
+            "estimatedValue": 310000000
+          }
+        }
+      ]
     }
   },
   "metadata": {

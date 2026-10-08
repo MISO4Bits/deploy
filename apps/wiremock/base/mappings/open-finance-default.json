@@ -11,7 +11,27 @@
       "scoreCrediticio": 650,
       "nivelEndeudamiento": "MEDIO",
       "historialPagos": "BUENO",
-      "productosActivos": 2
+      "productosActivos": 2,
+      "tradelines": [
+        {
+          "accountId": "ACC-HIP-GEN-001",
+          "creditorName": "BBVA COLOMBIA S.A.",
+          "accountType": "mortgage",
+          "status": "open",
+          "currency": "COP",
+          "originalAmount": 200000000,
+          "currentBalance": 160000000,
+          "monthlyPayment": 2100000,
+          "termMonths": 240,
+          "remainingMonths": 180,
+          "daysPastDue": 0,
+          "collateral": {
+            "type": "real_estate",
+            "address": "Calle 100 # 15-20 Apto 503, Bogotá",
+            "estimatedValue": 250000000
+          }
+        }
+      ]
     }
   },
   "metadata": {
