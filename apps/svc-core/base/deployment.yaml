@@ -45,6 +45,19 @@ spec:
               value: pubsub
             - name: CORE_PUBSUB_PROJECT_ID
               value: solventa-dev
+            # Correos del registro (BITS-93): Core arma la bienvenida y la
+            # verificación de correo (plantilla de svc-productos + enlace de
+            # Identity Platform) y publica EnviarCorreo para fn-notificaciones.
+            # Un fallo aquí solo se registra; nunca afecta al registro.
+            # Requiere el rol de administración de Identity Platform en la
+            # GSA svc-core-pubsub (iac-gcp-dev) y las URL de la web por defecto
+            # (https://solventa4bits.com, ruta /verificar-correo).
+            - name: CORE_NOTIFICACIONES_BACKEND
+              value: real
+            - name: CORE_IDENTITY_PROJECT_ID
+              value: solventa-dev
+            - name: CORE_PRODUCTOS_BASE_URL
+              value: http://svc-productos.svc-productos.svc.cluster.local
             # Observabilidad (DI-008): activa el SDK de OpenTelemetry
             # (deshabilitado por defecto en config.py). Exporta hacia el
             # receptor de Alloy dentro del mismo cluster (namespace
