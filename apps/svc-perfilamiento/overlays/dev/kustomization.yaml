@@ -10,6 +10,6 @@ resources:
 images:
 - name: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-perfilamiento
   newName: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-perfilamiento
-  newTag: sha-db3260e
+  newTag: sha-277230c
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
