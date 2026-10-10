@@ -9,6 +9,6 @@ resources:
 images:
 - name: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-productos
   newName: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-productos
-  newTag: sha-86bf064
+  newTag: sha-2a3010d
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
