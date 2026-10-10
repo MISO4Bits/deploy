@@ -1,0 +1,23 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-data/v1/perfil-sociodemografico",
+    "bodyPatterns": [
+      { "equalToJson": "{\"numeroDocumento\": \"1000000004\"}", "ignoreExtraElements": true }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "numeroDocumento": "1000000004",
+      "estrato": 4,
+      "ubicacion": { "departamento": "Antioquia", "ciudad": "Medellín" },
+      "categoriaSaludActuarial": "ESTANDAR"
+    }
+  },
+  "metadata": {
+    "escenario": "Nicolás — sin crédito hipotecario, riesgo bajo (demo, documento de prueba 1000000004)"
+  }
+}

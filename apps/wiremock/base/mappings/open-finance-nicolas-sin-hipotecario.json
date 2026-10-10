@@ -16,32 +16,32 @@
       "nivelEndeudamiento": "BAJO",
       "historialPagos": "BUENO",
       "productosActivos": 2,
-      "tradelines": [
+      "obligaciones": [
         {
-          "accountId": "ACC-TC-NIC-001",
-          "creditorName": "BANCO DE BOGOTÁ S.A.",
-          "accountType": "credit_card",
-          "status": "open",
-          "currency": "COP",
-          "currentBalance": 1500000,
-          "creditLimit": 7000000,
-          "monthlyPayment": 160000,
-          "daysPastDue": 0,
-          "delinquencyStatus": "current"
+          "idObligacion": "ACC-TC-NIC-001",
+          "entidadAcreedora": "BANCO DE BOGOTÁ S.A.",
+          "tipoProducto": "tarjeta_credito",
+          "estado": "abierta",
+          "moneda": "COP",
+          "saldoInsoluto": 1500000,
+          "cupo": 7000000,
+          "cuotaMensual": 160000,
+          "diasMora": 0,
+          "estadoMora": "al_dia"
         },
         {
-          "accountId": "ACC-LI-NIC-002",
-          "creditorName": "BANCO CAJA SOCIAL S.A.",
-          "accountType": "personal_loan",
-          "status": "open",
-          "currency": "COP",
-          "originalAmount": 12000000,
-          "currentBalance": 7800000,
-          "monthlyPayment": 410000,
-          "termMonths": 36,
-          "remainingMonths": 22,
-          "daysPastDue": 0,
-          "delinquencyStatus": "current"
+          "idObligacion": "ACC-LI-NIC-002",
+          "entidadAcreedora": "BANCO CAJA SOCIAL S.A.",
+          "tipoProducto": "libre_inversion",
+          "estado": "abierta",
+          "moneda": "COP",
+          "valorCredito": 12000000,
+          "saldoInsoluto": 7800000,
+          "cuotaMensual": 410000,
+          "plazoMeses": 36,
+          "plazoRestanteMeses": 22,
+          "diasMora": 0,
+          "estadoMora": "al_dia"
         }
       ]
     }

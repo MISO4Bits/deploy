@@ -51,6 +51,13 @@ spec:
             # puerto 80 -> containerPort 8080 del pod).
             - name: MOBILE_CORE_BASE_URL
               value: http://svc-core.svc-core.svc.cluster.local
+            # DNS interno de svc-perfilamiento y svc-productos: sirven el paso previo
+            # a cotizar (GET /v1/creditos-hipotecarios) — las hipotecas que Open
+            # Finance ya trajo al otorgarse el consentimiento y la lista de bancos.
+            - name: MOBILE_PERFILAMIENTO_BASE_URL
+              value: http://svc-perfilamiento.svc-perfilamiento.svc.cluster.local
+            - name: MOBILE_PRODUCTOS_BASE_URL
+              value: http://svc-productos.svc-productos.svc.cluster.local
             # Observabilidad (DI-008): activa el SDK de OpenTelemetry
             # (deshabilitado por defecto en config.py). Exporta hacia el
             # receptor de Alloy dentro del mismo cluster (namespace

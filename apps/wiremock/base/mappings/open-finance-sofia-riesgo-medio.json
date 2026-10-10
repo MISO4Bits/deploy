@@ -16,50 +16,51 @@
       "nivelEndeudamiento": "MEDIO",
       "historialPagos": "IRREGULAR",
       "productosActivos": 3,
-      "tradelines": [
+      "obligaciones": [
         {
-          "accountId": "ACC-001-HIP-DAV",
-          "creditorName": "DAVIVIENDA S.A.",
-          "accountType": "mortgage",
-          "status": "open",
-          "currency": "COP",
-          "originalAmount": 220000000,
-          "currentBalance": 178500000,
-          "monthlyPayment": 3200000,
-          "termMonths": 240,
-          "remainingMonths": 165,
-          "daysPastDue": 0,
-          "collateral": {
-            "type": "real_estate",
-            "address": "Calle 170 # 52-30 Apto 402, Bogotá",
-            "estimatedValue": 260000000
+          "idObligacion": "ACC-001-HIP-DAV",
+          "entidadAcreedora": "DAVIVIENDA S.A.",
+          "tipoProducto": "hipotecario",
+          "estado": "abierta",
+          "moneda": "COP",
+          "valorCredito": 220000000,
+          "saldoInsoluto": 178500000,
+          "cuotaMensual": 3200000,
+          "plazoMeses": 240,
+          "plazoRestanteMeses": 165,
+          "diasMora": 0,
+          "estadoMora": "al_dia",
+          "garantia": {
+            "tipo": "inmueble",
+            "direccion": "Calle 170 # 52-30 Apto 402, Bogotá",
+            "valorEstimado": 260000000
           }
         },
         {
-          "accountId": "ACC-003-CC-BLOMB",
-          "creditorName": "BANCOLOMBIA S.A.",
-          "accountType": "credit_card",
-          "status": "open",
-          "currency": "COP",
-          "currentBalance": 6700000,
-          "creditLimit": 8000000,
-          "monthlyPayment": 480000,
-          "daysPastDue": 32,
-          "delinquencyStatus": "delinquent_30_59"
+          "idObligacion": "ACC-003-CC-BLOMB",
+          "entidadAcreedora": "BANCOLOMBIA S.A.",
+          "tipoProducto": "tarjeta_credito",
+          "estado": "abierta",
+          "moneda": "COP",
+          "saldoInsoluto": 6700000,
+          "cupo": 8000000,
+          "cuotaMensual": 480000,
+          "diasMora": 32,
+          "estadoMora": "mora_30_59"
         },
         {
-          "accountId": "ACC-LI-SOF-003",
-          "creditorName": "BBVA COLOMBIA S.A.",
-          "accountType": "personal_loan",
-          "status": "open",
-          "currency": "COP",
-          "originalAmount": 15000000,
-          "currentBalance": 9200000,
-          "monthlyPayment": 520000,
-          "termMonths": 36,
-          "remainingMonths": 20,
-          "daysPastDue": 0,
-          "delinquencyStatus": "current"
+          "idObligacion": "ACC-LI-SOF-003",
+          "entidadAcreedora": "BBVA COLOMBIA S.A.",
+          "tipoProducto": "libre_inversion",
+          "estado": "abierta",
+          "moneda": "COP",
+          "valorCredito": 15000000,
+          "saldoInsoluto": 9200000,
+          "cuotaMensual": 520000,
+          "plazoMeses": 36,
+          "plazoRestanteMeses": 20,
+          "diasMora": 0,
+          "estadoMora": "al_dia"
         }
       ]
     }

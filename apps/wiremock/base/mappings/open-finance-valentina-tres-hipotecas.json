@@ -1,0 +1,83 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-finance/v1/perfil-crediticio",
+    "bodyPatterns": [
+      { "equalToJson": "{\"numeroDocumento\": \"1000000005\"}", "ignoreExtraElements": true }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "numeroDocumento": "1000000005",
+      "scoreCrediticio": 690,
+      "nivelEndeudamiento": "MEDIO",
+      "historialPagos": "BUENO",
+      "productosActivos": 3,
+      "obligaciones": [
+        {
+          "idObligacion": "ACC-HIP-VAL-001",
+          "entidadAcreedora": "BANCOLOMBIA S.A.",
+          "tipoProducto": "hipotecario",
+          "estado": "abierta",
+          "moneda": "COP",
+          "valorCredito": 280000000,
+          "saldoInsoluto": 231000000,
+          "cuotaMensual": 2650000,
+          "plazoMeses": 240,
+          "plazoRestanteMeses": 190,
+          "diasMora": 0,
+          "estadoMora": "al_dia",
+          "garantia": {
+            "tipo": "inmueble",
+            "direccion": "Carrera 9 # 85-12 Apto 702, Bogotá",
+            "valorEstimado": 340000000
+          }
+        },
+        {
+          "idObligacion": "ACC-HIP-VAL-002",
+          "entidadAcreedora": "DAVIVIENDA S.A.",
+          "tipoProducto": "hipotecario",
+          "estado": "abierta",
+          "moneda": "COP",
+          "valorCredito": 120000000,
+          "saldoInsoluto": 84000000,
+          "cuotaMensual": 1210000,
+          "plazoMeses": 180,
+          "plazoRestanteMeses": 92,
+          "diasMora": 0,
+          "estadoMora": "al_dia",
+          "garantia": {
+            "tipo": "inmueble",
+            "direccion": "Calle 45 # 22-10 Apto 301, Chía",
+            "valorEstimado": 150000000
+          }
+        },
+        {
+          "idObligacion": "ACC-HIP-VAL-003",
+          "entidadAcreedora": "BBVA COLOMBIA S.A.",
+          "tipoProducto": "hipotecario",
+          "estado": "abierta",
+          "moneda": "COP",
+          "valorCredito": 90000000,
+          "saldoInsoluto": 41000000,
+          "cuotaMensual": 980000,
+          "plazoMeses": 120,
+          "plazoRestanteMeses": 54,
+          "diasMora": 0,
+          "estadoMora": "al_dia",
+          "garantia": {
+            "tipo": "inmueble",
+            "direccion": "Carrera 15 # 4-30 Casa 8, Cajicá",
+            "valorEstimado": 110000000
+          }
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "escenario": "Valentina — tres créditos hipotecarios abiertos en bancos distintos, riesgo medio (demo, documento de prueba 1000000005)"
+  }
+}

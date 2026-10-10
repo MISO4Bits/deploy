@@ -1,0 +1,23 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-data/v1/perfil-sociodemografico",
+    "bodyPatterns": [
+      { "equalToJson": "{\"numeroDocumento\": \"1000000005\"}", "ignoreExtraElements": true }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "numeroDocumento": "1000000005",
+      "estrato": 5,
+      "ubicacion": { "departamento": "Cundinamarca", "ciudad": "Bogotá" },
+      "categoriaSaludActuarial": "ESTANDAR"
+    }
+  },
+  "metadata": {
+    "escenario": "Valentina — tres créditos hipotecarios abiertos en bancos distintos, riesgo medio (demo, documento de prueba 1000000005)"
+  }
+}

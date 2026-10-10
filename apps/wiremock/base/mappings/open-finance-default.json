@@ -12,36 +12,37 @@
       "nivelEndeudamiento": "MEDIO",
       "historialPagos": "BUENO",
       "productosActivos": 2,
-      "tradelines": [
+      "obligaciones": [
         {
-          "accountId": "ACC-HIP-GEN-001",
-          "creditorName": "BBVA COLOMBIA S.A.",
-          "accountType": "mortgage",
-          "status": "open",
-          "currency": "COP",
-          "originalAmount": 200000000,
-          "currentBalance": 160000000,
-          "monthlyPayment": 2100000,
-          "termMonths": 240,
-          "remainingMonths": 180,
-          "daysPastDue": 0,
-          "collateral": {
-            "type": "real_estate",
-            "address": "Calle 100 # 15-20 Apto 503, Bogotá",
-            "estimatedValue": 250000000
+          "idObligacion": "ACC-HIP-GEN-001",
+          "entidadAcreedora": "BBVA COLOMBIA S.A.",
+          "tipoProducto": "hipotecario",
+          "estado": "abierta",
+          "moneda": "COP",
+          "valorCredito": 200000000,
+          "saldoInsoluto": 160000000,
+          "cuotaMensual": 2100000,
+          "plazoMeses": 240,
+          "plazoRestanteMeses": 180,
+          "diasMora": 0,
+          "estadoMora": "al_dia",
+          "garantia": {
+            "tipo": "inmueble",
+            "direccion": "Calle 100 # 15-20 Apto 503, Bogotá",
+            "valorEstimado": 250000000
           }
         },
         {
-          "accountId": "ACC-TC-GEN-002",
-          "creditorName": "BANCOLOMBIA S.A.",
-          "accountType": "credit_card",
-          "status": "open",
-          "currency": "COP",
-          "currentBalance": 2100000,
-          "creditLimit": 6000000,
-          "monthlyPayment": 210000,
-          "daysPastDue": 0,
-          "delinquencyStatus": "current"
+          "idObligacion": "ACC-TC-GEN-002",
+          "entidadAcreedora": "BANCOLOMBIA S.A.",
+          "tipoProducto": "tarjeta_credito",
+          "estado": "abierta",
+          "moneda": "COP",
+          "saldoInsoluto": 2100000,
+          "cupo": 6000000,
+          "cuotaMensual": 210000,
+          "diasMora": 0,
+          "estadoMora": "al_dia"
         }
       ]
     }

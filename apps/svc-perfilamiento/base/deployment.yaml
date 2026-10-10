@@ -15,6 +15,9 @@ spec:
         app: svc-perfilamiento
     spec:
       serviceAccountName: svc-perfilamiento
+      volumes:
+        - name: datos
+          emptyDir: {}
       containers:
         - name: svc-perfilamiento
           # Tag placeholder — cada overlay lo sobrescribe con el bloque
@@ -27,11 +30,17 @@ spec:
             - name: http
               containerPort: 8080
           env:
-            # El adaptador de persistencia real todavía no se activa por
-            # overlay (fase posterior) — el repositorio de perfiles sigue
-            # en memoria pase lo que pase con PERF_ADAPTERS.
             - name: PERF_ENVIRONMENT
               value: dev
+            # Perfiles, consentimientos y señales de las fuentes en SQLite
+            # (Cloud Spanner llega con DI-009). El archivo vive en un emptyDir:
+            # sobrevive a un reinicio del contenedor pero no al pod, y cada
+            # réplica tendría el suyo — por eso replicas: 1. Si se pierde, el
+            # cliente captura sus datos a mano hasta que vuelva a consentir.
+            - name: PERF_REPOSITORY_BACKEND
+              value: sqlite
+            - name: PERF_DATABASE_PATH
+              value: /data/perfilamiento.db
             # Open Finance/Open Data reales apuntando al mock de WireMock
             # (deploy/apps/wiremock) — mismo pod para los dos, distinguido
             # por prefijo de ruta.
@@ -41,8 +50,9 @@ spec:
               value: http://wiremock.wiremock.svc.cluster.local/open-finance
             - name: PERF_OPEN_DATA_BASE_URL
               value: http://wiremock.wiremock.svc.cluster.local/open-data
-            # Publicación real de PerfilCalculado + consumo real de
-            # ConsentimientoOtorgado/ConsentimientoRevocado vía Pub/Sub —
+            # Publicación real de PerfilCalculado/PerfilInvalidado + consumo real
+            # de ClienteRegistrado/ConsentimientoOtorgado/ConsentimientoRevocado
+            # vía Pub/Sub —
             # tópico y suscripción aprovisionados en
             # iac-gcp-dev/modules/pubsub. Requiere el serviceAccountName de
             # arriba (permiso de publicador + suscriptor vía Workload
@@ -57,6 +67,9 @@ spec:
             # observability, ver iac-gcp-dev/modules/observability).
             - name: PERF_OTEL_ENABLED
               value: "true"
+          volumeMounts:
+            - name: datos
+              mountPath: /data
           resources:
             requests:
               cpu: 250m

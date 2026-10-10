@@ -68,6 +68,12 @@ spec:
             # mostrar los textos antes de aceptar.
             - name: BFF_PRODUCTOS_BASE_URL
               value: http://svc-productos.svc-productos.svc.cluster.local
+            # DNS interno del Service de svc-perfilamiento. Sirve las hipotecas
+            # que Open Finance ya trajo al otorgarse el consentimiento
+            # (GET /v1/creditos-hipotecarios, paso previo a cotizar); si no
+            # responde, el cliente escribe los datos a mano.
+            - name: BFF_PERFILAMIENTO_BASE_URL
+              value: http://svc-perfilamiento.svc-perfilamiento.svc.cluster.local
             # Observabilidad (DI-008): activa el SDK de OpenTelemetry
             # (deshabilitado por defecto en config.py). Exporta hacia el
             # receptor de Alloy dentro del mismo cluster (namespace

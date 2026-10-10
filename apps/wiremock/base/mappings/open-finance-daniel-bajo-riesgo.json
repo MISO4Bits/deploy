@@ -16,23 +16,24 @@
       "nivelEndeudamiento": "BAJO",
       "historialPagos": "EXCELENTE",
       "productosActivos": 1,
-      "tradelines": [
+      "obligaciones": [
         {
-          "accountId": "ACC-HIP-DAN-001",
-          "creditorName": "BANCOLOMBIA S.A.",
-          "accountType": "mortgage",
-          "status": "open",
-          "currency": "COP",
-          "originalAmount": 180000000,
-          "currentBalance": 98000000,
-          "monthlyPayment": 1650000,
-          "termMonths": 180,
-          "remainingMonths": 96,
-          "daysPastDue": 0,
-          "collateral": {
-            "type": "real_estate",
-            "address": "Carrera 7 # 120-45 Apto 801, Bogotá",
-            "estimatedValue": 310000000
+          "idObligacion": "ACC-HIP-DAN-001",
+          "entidadAcreedora": "BANCOLOMBIA S.A.",
+          "tipoProducto": "hipotecario",
+          "estado": "abierta",
+          "moneda": "COP",
+          "valorCredito": 180000000,
+          "saldoInsoluto": 98000000,
+          "cuotaMensual": 1650000,
+          "plazoMeses": 180,
+          "plazoRestanteMeses": 96,
+          "diasMora": 0,
+          "estadoMora": "al_dia",
+          "garantia": {
+            "tipo": "inmueble",
+            "direccion": "Carrera 7 # 120-45 Apto 801, Bogotá",
+            "valorEstimado": 310000000
           }
         }
       ]
