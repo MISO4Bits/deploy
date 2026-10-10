@@ -1,7 +1,0 @@
-namespace: fe-web
-
-resources:
-  - namespace.yaml
-  - deployment.yaml
-  - service.yaml
-  - referencegrant.yaml
