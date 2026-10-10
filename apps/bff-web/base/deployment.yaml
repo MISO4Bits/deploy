@@ -43,6 +43,10 @@ spec:
           env:
             - name: BFF_ENVIRONMENT
               value: dev
+            # CORS: el portal web (Cloud Storage + CDN, DI-012) llama a la API
+            # desde el navegador. Lista separada por comas.
+            - name: BFF_CORS_ORIGINS
+              value: "https://solventa4bits.com,https://www.solventa4bits.com"
             # "http": identidad y CoreTransaccional reales (ambos van
             # juntos, ver app/adapters/factory.py — no hay modo mixto).
             - name: BFF_ADAPTERS
