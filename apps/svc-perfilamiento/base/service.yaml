@@ -1,5 +1,5 @@
 # Solo interno — Perfilamiento no se expone públicamente, lo llama
-# Cotización y Rating (lectura GET /perfiles/{clienteId}) dentro del
+# Cotización y Rating (lectura GET /v1/perfiles/{clienteId}) dentro del
 # cluster, sin Gateway/HTTPRoute aquí, igual que svc-core y svc-cotizacion.
 apiVersion: v1
 kind: Service

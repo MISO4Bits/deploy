@@ -34,7 +34,7 @@ spec:
             # COT_ADAPTERS.
             - name: COT_ENVIRONMENT
               value: dev
-            # Perfilamiento real (BITS-105): lee GET /perfiles/{clienteId}
+            # Perfilamiento real (BITS-105): lee GET /v1/perfiles/{clienteId}
             # en vez del perfilador simulado.
             - name: COT_ADAPTERS
               value: http
