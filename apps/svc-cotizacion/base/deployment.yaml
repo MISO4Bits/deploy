@@ -15,6 +15,9 @@ spec:
         app: svc-cotizacion
     spec:
       serviceAccountName: svc-cotizacion
+      volumes:
+        - name: datos
+          emptyDir: {}
       containers:
         - name: svc-cotizacion
           # Tag placeholder — cada overlay lo sobrescribe con el bloque
@@ -27,17 +30,25 @@ spec:
             - name: http
               containerPort: 8080
           env:
-            # El adaptador de persistencia real contra la instancia
-            # compartida de Spanner (ya aprovisionada en modules/spanner)
-            # todavía no existe en el código de svc-cotizacion — las
-            # cotizaciones siguen en memoria pase lo que pase con
-            # COT_ADAPTERS.
+            # La cotización activa de cada cliente (una sola, la nueva reemplaza a la
+            # anterior) vive en SQLite hasta que llegue Cloud Spanner (DI-009).
+            # El archivo está en un emptyDir: sobrevive a un reinicio del contenedor
+            # pero no al pod, y cada réplica tendría el suyo — por eso replicas: 1.
             - name: COT_ENVIRONMENT
               value: dev
             # Perfilamiento real (BITS-105): lee GET /v1/perfiles/{clienteId}
             # en vez del perfilador simulado.
             - name: COT_ADAPTERS
               value: http
+            - name: COT_REPOSITORY_BACKEND
+              value: sqlite
+            - name: COT_DATABASE_PATH
+              value: /data/cotizacion.db
+            # Tabla de tasas por edad (GET /v1/tarifas/vida-hipotecario): se pide una
+            # sola vez y se guarda en Redis (TTL 24 h); cambiarla es editar la semilla
+            # de Productos y desplegar.
+            - name: COT_PRODUCTOS_BASE_URL
+              value: http://svc-productos.svc-productos.svc.cluster.local
             - name: COT_PERFILAMIENTO_BASE_URL
               value: http://svc-perfilamiento.svc-perfilamiento.svc.cluster.local
             # Caché de perfiles (Redis, decisión 2026-09-19) — evita pagar
@@ -66,6 +77,9 @@ spec:
           # que distorsionaría el punto de quiebre que estamos buscando.
           # Sin costo adicional: Autopilot factura por requests, no por el
           # techo de limits (ver GKE docs, "Configure Pod bursting in GKE").
+          volumeMounts:
+            - name: datos
+              mountPath: /data
           resources:
             requests:
               cpu: 250m

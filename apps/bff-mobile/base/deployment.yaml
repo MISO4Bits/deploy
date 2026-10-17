@@ -58,6 +58,11 @@ spec:
               value: http://svc-perfilamiento.svc-perfilamiento.svc.cluster.local
             - name: MOBILE_PRODUCTOS_BASE_URL
               value: http://svc-productos.svc-productos.svc.cluster.local
+            # DNS interno de svc-cotizacion: la cotización activa del cliente
+            # (POST y GET /v1/cotizaciones). Cae a tarifa estándar si Perfilamiento
+            # no responde.
+            - name: MOBILE_COTIZACION_BASE_URL
+              value: http://svc-cotizacion.svc-cotizacion.svc.cluster.local
             # Observabilidad (DI-008): activa el SDK de OpenTelemetry
             # (deshabilitado por defecto en config.py). Exporta hacia el
             # receptor de Alloy dentro del mismo cluster (namespace
