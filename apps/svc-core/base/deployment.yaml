@@ -58,6 +58,20 @@ spec:
               value: solventa-dev
             - name: CORE_PRODUCTOS_BASE_URL
               value: http://svc-productos.svc-productos.svc.cluster.local
+            # Evidencias de identidad (BITS-275): fotos de la cédula y selfie. Se
+            # guardan en un bucket privado (iac-gcp-dev/modules/evidencias; el
+            # acceso sale de la misma cuenta de servicio de arriba) y el análisis
+            # de la imagen corre dentro del propio pod: no llama a ningún servicio
+            # externo. Los umbrales de calidad (CORE_CALIDAD_*) son provisionales
+            # hasta calibrarlos con fotos reales; si rechazan fotos buenas se
+            # relajan aquí sin cambiar código. Con CORE_VERIFICADOR_BACKEND=mock
+            # el servicio devuelve veredictos configurables sin mirar la imagen.
+            - name: CORE_ALMACEN_BACKEND
+              value: gcs
+            - name: CORE_ALMACEN_BUCKET
+              value: solventa-dev-evidencias
+            - name: CORE_VERIFICADOR_BACKEND
+              value: local
             # Observabilidad (DI-008): activa el SDK de OpenTelemetry
             # (deshabilitado por defecto en config.py). Exporta hacia el
             # receptor de Alloy dentro del mismo cluster (namespace
