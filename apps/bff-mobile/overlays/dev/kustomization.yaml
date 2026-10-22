@@ -9,6 +9,6 @@ resources:
 images:
 - name: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/bff-mobile
   newName: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/bff-mobile
-  newTag: sha-0a30ce8
+  newTag: sha-22f627d
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
