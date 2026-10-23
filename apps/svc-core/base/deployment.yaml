@@ -72,19 +72,33 @@ spec:
               value: solventa-dev-evidencias
             - name: CORE_VERIFICADOR_BACKEND
               value: local
+            # Selfie (BITS-235): prueba de vida pasiva y comparación con el frente de
+            # la cédula, con los modelos de OpenCV que van dentro de la imagen
+            # (/app/models). Los modelos se cargan al arrancar: si faltan, el pod no
+            # arranca. Los umbrales (CORE_BIOMETRIA_*) son provisionales hasta
+            # calibrarlos con fotos reales; si rechazan selfies buenas se relajan aquí
+            # sin cambiar código. Con CORE_BIOMETRIA_BACKEND=mock el servicio devuelve
+            # veredictos configurables sin mirar la imagen.
+            - name: CORE_BIOMETRIA_BACKEND
+              value: local
             # Observabilidad (DI-008): activa el SDK de OpenTelemetry
             # (deshabilitado por defecto en config.py). Exporta hacia el
             # receptor de Alloy dentro del mismo cluster (namespace
             # observability, ver iac-gcp-dev/modules/observability).
             - name: CORE_OTEL_ENABLED
               value: "true"
+          # 1 vCPU / 1 Gi (antes 250m / 512 Mi): los modelos de la selfie (BITS-235)
+          # corren en este mismo pod, y con un límite de procesador el estrangulamiento
+          # afecta a todo el contenedor, incluidas las transacciones de dinero. Sin
+          # medición de carga todavía: si se observa degradación, el análisis se puede
+          # sacar del pod detrás del puerto VerificadorBiometrico.
           resources:
             requests:
-              cpu: 250m
-              memory: 512Mi
+              cpu: "1"
+              memory: 1Gi
             limits:
-              cpu: 250m
-              memory: 512Mi
+              cpu: "1"
+              memory: 1Gi
           readinessProbe:
             httpGet:
               path: /health
