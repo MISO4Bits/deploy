@@ -1,0 +1,31 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-data/v1/perfil-sociodemografico",
+    "bodyPatterns": [
+      {
+        "equalToJson": "{\"numeroDocumento\": \"2026000001\"}",
+        "ignoreExtraElements": true
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "numeroDocumento": "2026000001",
+      "estrato": 4,
+      "ubicacion": {
+        "departamento": "Cundinamarca",
+        "ciudad": "Bogotá"
+      },
+      "categoriaSaludActuarial": "ESTANDAR"
+    }
+  },
+  "metadata": {
+    "escenario": "Camila — riesgo bajo (factor 0,85): endeudamiento bajo, pagos excelentes, una hipoteca al día en Davivienda (Sprint 2, documento de prueba 2026000001)"
+  }
+}

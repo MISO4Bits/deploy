@@ -1,0 +1,62 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-finance/v1/perfil-crediticio",
+    "bodyPatterns": [
+      {
+        "equalToJson": "{\"numeroDocumento\": \"2026000005\"}",
+        "ignoreExtraElements": true
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "numeroDocumento": "2026000005",
+      "scoreCrediticio": 710,
+      "nivelEndeudamiento": "MEDIO",
+      "historialPagos": "BUENO",
+      "productosActivos": 2,
+      "obligaciones": [
+        {
+          "idObligacion": "ACC-HIP-PAU-001",
+          "entidadAcreedora": "BANCOLOMBIA S.A.",
+          "tipoProducto": "hipotecario",
+          "estado": "abierta",
+          "moneda": "COP",
+          "valorCredito": 480000000,
+          "saldoInsoluto": 412000000,
+          "cuotaMensual": 4350000,
+          "plazoMeses": 240,
+          "plazoRestanteMeses": 214,
+          "diasMora": 0,
+          "estadoMora": "al_dia",
+          "garantia": {
+            "tipo": "inmueble",
+            "direccion": "Carrera 35 # 48-30 Casa 12, Bucaramanga",
+            "valorEstimado": 560000000
+          }
+        },
+        {
+          "idObligacion": "ACC-TC-PAU-002",
+          "entidadAcreedora": "DAVIVIENDA S.A.",
+          "tipoProducto": "tarjeta_credito",
+          "estado": "abierta",
+          "moneda": "COP",
+          "saldoInsoluto": 1700000,
+          "cupo": 15000000,
+          "cuotaMensual": 190000,
+          "diasMora": 0,
+          "estadoMora": "al_dia"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "escenario": "Paula — perfil neutro (factor 1,00) con una hipoteca grande en Bancolombia; sirve para ver el tope de la suma asegurada de Tu casa y como cuenta para destruir (Sprint 2, documento de prueba 2026000005)"
+  }
+}

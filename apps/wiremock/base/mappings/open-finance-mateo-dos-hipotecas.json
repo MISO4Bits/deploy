@@ -1,0 +1,81 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-finance/v1/perfil-crediticio",
+    "bodyPatterns": [
+      {
+        "equalToJson": "{\"numeroDocumento\": \"2026000004\"}",
+        "ignoreExtraElements": true
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "numeroDocumento": "2026000004",
+      "scoreCrediticio": 720,
+      "nivelEndeudamiento": "MEDIO",
+      "historialPagos": "BUENO",
+      "productosActivos": 3,
+      "obligaciones": [
+        {
+          "idObligacion": "ACC-HIP-MAT-001",
+          "entidadAcreedora": "BANCOLOMBIA S.A.",
+          "tipoProducto": "hipotecario",
+          "estado": "abierta",
+          "moneda": "COP",
+          "valorCredito": 320000000,
+          "saldoInsoluto": 268000000,
+          "cuotaMensual": 3050000,
+          "plazoMeses": 240,
+          "plazoRestanteMeses": 196,
+          "diasMora": 0,
+          "estadoMora": "al_dia",
+          "garantia": {
+            "tipo": "inmueble",
+            "direccion": "Carrera 43A # 7-50 Apto 1203, Medellín",
+            "valorEstimado": 395000000
+          }
+        },
+        {
+          "idObligacion": "ACC-HIP-MAT-002",
+          "entidadAcreedora": "BBVA COLOMBIA S.A.",
+          "tipoProducto": "hipotecario",
+          "estado": "abierta",
+          "moneda": "COP",
+          "valorCredito": 110000000,
+          "saldoInsoluto": 62000000,
+          "cuotaMensual": 1120000,
+          "plazoMeses": 180,
+          "plazoRestanteMeses": 84,
+          "diasMora": 0,
+          "estadoMora": "al_dia",
+          "garantia": {
+            "tipo": "inmueble",
+            "direccion": "Calle 10 # 40-22 Apto 402, Envigado",
+            "valorEstimado": 150000000
+          }
+        },
+        {
+          "idObligacion": "ACC-TC-MAT-003",
+          "entidadAcreedora": "BANCOLOMBIA S.A.",
+          "tipoProducto": "tarjeta_credito",
+          "estado": "abierta",
+          "moneda": "COP",
+          "saldoInsoluto": 3100000,
+          "cupo": 12000000,
+          "cuotaMensual": 280000,
+          "diasMora": 0,
+          "estadoMora": "al_dia"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "escenario": "Mateo — perfil neutro (factor 0,95) con dos hipotecas abiertas en bancos distintos, Bancolombia y BBVA (Sprint 2, documento de prueba 2026000004)"
+  }
+}

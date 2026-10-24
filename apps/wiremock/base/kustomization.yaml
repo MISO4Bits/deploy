@@ -30,3 +30,24 @@ configMapGenerator:
       - mappings/open-data-timeout.json
       - mappings/open-data-error.json
       - mappings/open-data-default.json
+      # Personas del Sprint 2 (BITS-313): números 2026xxxxxx, propios de las
+      # cuentas de prueba de este sprint, para no chocar con las cuentas que el
+      # equipo registra con las personas de arriba.
+      - mappings/open-finance-camila-riesgo-bajo.json
+      - mappings/open-finance-andres-alto-riesgo.json
+      - mappings/open-finance-lucia-sin-hipotecario.json
+      - mappings/open-finance-mateo-dos-hipotecas.json
+      - mappings/open-finance-paula-hipoteca-grande.json
+      - mappings/open-finance-jorge-factores-mixtos.json
+      - mappings/open-finance-s2-lento.json
+      - mappings/open-finance-s2-ambas-caidas.json
+      - mappings/open-finance-s2-solo-finance-caida.json
+      - mappings/open-data-camila-riesgo-bajo.json
+      - mappings/open-data-andres-alto-riesgo.json
+      - mappings/open-data-lucia-sin-hipotecario.json
+      - mappings/open-data-mateo-dos-hipotecas.json
+      - mappings/open-data-paula-hipoteca-grande.json
+      - mappings/open-data-jorge-factores-mixtos.json
+      - mappings/open-data-s2-lento.json
+      - mappings/open-data-s2-ambas-caidas.json
+      - mappings/open-data-s2-solo-finance-caida.json

@@ -1,0 +1,31 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-data/v1/perfil-sociodemografico",
+    "bodyPatterns": [
+      {
+        "equalToJson": "{\"numeroDocumento\": \"2026000002\"}",
+        "ignoreExtraElements": true
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "numeroDocumento": "2026000002",
+      "estrato": 2,
+      "ubicacion": {
+        "departamento": "Valle del Cauca",
+        "ciudad": "Cali"
+      },
+      "categoriaSaludActuarial": "ELEVADA"
+    }
+  },
+  "metadata": {
+    "escenario": "Andrés — alto riesgo (factor 1,65): endeudamiento alto, pagos irregulares, salud elevada; hipoteca en mora con Banco de Bogotá (Sprint 2, documento de prueba 2026000002)"
+  }
+}

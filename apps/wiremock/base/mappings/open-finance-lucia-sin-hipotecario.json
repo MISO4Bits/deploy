@@ -1,0 +1,57 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-finance/v1/perfil-crediticio",
+    "bodyPatterns": [
+      {
+        "equalToJson": "{\"numeroDocumento\": \"2026000003\"}",
+        "ignoreExtraElements": true
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "numeroDocumento": "2026000003",
+      "scoreCrediticio": 700,
+      "nivelEndeudamiento": "MEDIO",
+      "historialPagos": "BUENO",
+      "productosActivos": 2,
+      "obligaciones": [
+        {
+          "idObligacion": "ACC-VEH-LUC-001",
+          "entidadAcreedora": "BANCO DE OCCIDENTE S.A.",
+          "tipoProducto": "vehiculo",
+          "estado": "abierta",
+          "moneda": "COP",
+          "valorCredito": 55000000,
+          "saldoInsoluto": 38000000,
+          "cuotaMensual": 1240000,
+          "plazoMeses": 60,
+          "plazoRestanteMeses": 41,
+          "diasMora": 0,
+          "estadoMora": "al_dia"
+        },
+        {
+          "idObligacion": "ACC-TC-LUC-002",
+          "entidadAcreedora": "BANCO DE BOGOTÁ S.A.",
+          "tipoProducto": "tarjeta_credito",
+          "estado": "abierta",
+          "moneda": "COP",
+          "saldoInsoluto": 2300000,
+          "cupo": 9000000,
+          "cuotaMensual": 210000,
+          "diasMora": 0,
+          "estadoMora": "al_dia"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "escenario": "Lucía — perfil neutro (factor 1,00) con productos pero sin crédito hipotecario; BITS-219 la lleva a la captura manual (Sprint 2, documento de prueba 2026000003)"
+  }
+}

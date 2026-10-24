@@ -1,0 +1,27 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-finance/v1/perfil-crediticio",
+    "bodyPatterns": [
+      {
+        "equalToJson": "{\"numeroDocumento\": \"2026000007\"}",
+        "ignoreExtraElements": true
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "fixedDelayMilliseconds": 5000,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "numeroDocumento": "2026000007",
+      "scoreCrediticio": 0
+    }
+  },
+  "metadata": {
+    "escenario": "Sprint 2 — Open Finance lento (delay 5s, dispara el timeout de 500 ms por fuente); Open Data responde normal (documento de prueba 2026000007)"
+  }
+}
