@@ -81,6 +81,19 @@ spec:
             # veredictos configurables sin mirar la imagen.
             - name: CORE_BIOMETRIA_BACKEND
               value: local
+            # Pólizas (BITS-101): Core lee la cotización activa por la ruta interna de
+            # svc-cotizacion (no pasa por el gateway) y consume CotizacionCreada /
+            # CotizacionEliminada para borrar la póliza pendiente de la cotización anterior
+            # (suscripción core-cotizacion, iac-gcp-dev/modules/pubsub). El documento de la
+            # póliza sigue en "fake" hasta que exista el servicio de documentos.
+            - name: CORE_COTIZACION_BACKEND
+              value: http
+            - name: CORE_COTIZACION_BASE_URL
+              value: http://svc-cotizacion.svc-cotizacion.svc.cluster.local
+            - name: CORE_CONSUMIDOR_BACKEND
+              value: pubsub
+            - name: CORE_PUBSUB_SUBSCRIPTION
+              value: core-cotizacion
             # Observabilidad (DI-008): activa el SDK de OpenTelemetry
             # (deshabilitado por defecto en config.py). Exporta hacia el
             # receptor de Alloy dentro del mismo cluster (namespace

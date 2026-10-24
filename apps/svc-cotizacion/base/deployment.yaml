@@ -64,6 +64,10 @@ spec:
               value: redis://redis.redis.svc.cluster.local:6379/0
             - name: COT_PUBSUB_PROJECT_ID
               value: solventa-dev
+            # Publica CotizacionCreada / CotizacionEliminada (BITS-101) en el tópico
+            # compartido, sin esperar el acuse: cotizar no paga la latencia de Pub/Sub.
+            - name: COT_EVENTOS_BACKEND
+              value: pubsub
             # Observabilidad (DI-008): activa el SDK de OpenTelemetry
             # (deshabilitado por defecto en config.py). Exporta hacia el
             # receptor de Alloy dentro del mismo cluster (namespace
