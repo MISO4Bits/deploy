@@ -83,9 +83,11 @@ spec:
               value: local
             # Pólizas (BITS-101): Core lee la cotización activa por la ruta interna de
             # svc-cotizacion (no pasa por el gateway) y consume CotizacionCreada /
-            # CotizacionEliminada para borrar la póliza pendiente de la cotización anterior
-            # (suscripción core-cotizacion, iac-gcp-dev/modules/pubsub). El documento de la
-            # póliza sigue en "fake" hasta que exista el servicio de documentos.
+            # CotizacionEliminada para borrar la póliza pendiente de la cotización anterior, y
+            # DocumentoPolizaGenerado para encargar el correo con el PDF adjunto (suscripción
+            # core-polizas, iac-gcp-dev/modules/pubsub). El documento de la póliza sigue en "fake"
+            # hasta aplicar el módulo fn-documentos: entonces se agregan CORE_DOCUMENTO_BACKEND=http
+            # y CORE_DOCUMENTO_BASE_URL (salida `fn_documentos_url` de iac-gcp-dev).
             - name: CORE_COTIZACION_BACKEND
               value: http
             - name: CORE_COTIZACION_BASE_URL
@@ -93,7 +95,7 @@ spec:
             - name: CORE_CONSUMIDOR_BACKEND
               value: pubsub
             - name: CORE_PUBSUB_SUBSCRIPTION
-              value: core-cotizacion
+              value: core-polizas
             # Observabilidad (DI-008): activa el SDK de OpenTelemetry
             # (deshabilitado por defecto en config.py). Exporta hacia el
             # receptor de Alloy dentro del mismo cluster (namespace
