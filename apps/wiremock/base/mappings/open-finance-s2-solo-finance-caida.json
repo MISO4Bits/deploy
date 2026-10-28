@@ -1,0 +1,25 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-finance/v1/perfil-crediticio",
+    "bodyPatterns": [
+      {
+        "equalToJson": "{\"numeroDocumento\": \"2026000009\"}",
+        "ignoreExtraElements": true
+      }
+    ]
+  },
+  "response": {
+    "status": 503,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "error": "Servicio no disponible (simulado, EXP-02)"
+    }
+  },
+  "metadata": {
+    "escenario": "Sprint 2 — SOLO Open Finance cae (503); Open Data responde normal. Degradación parcial, BITS-106 AC-2 (documento de prueba 2026000009)"
+  }
+}

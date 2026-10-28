@@ -1,0 +1,62 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/open-finance/v1/perfil-crediticio",
+    "bodyPatterns": [
+      {
+        "equalToJson": "{\"numeroDocumento\": \"2026000006\"}",
+        "ignoreExtraElements": true
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "numeroDocumento": "2026000006",
+      "scoreCrediticio": 640,
+      "nivelEndeudamiento": "BAJO",
+      "historialPagos": "IRREGULAR",
+      "productosActivos": 2,
+      "obligaciones": [
+        {
+          "idObligacion": "ACC-HIP-JOR-001",
+          "entidadAcreedora": "BBVA COLOMBIA S.A.",
+          "tipoProducto": "hipotecario",
+          "estado": "abierta",
+          "moneda": "COP",
+          "valorCredito": 150000000,
+          "saldoInsoluto": 121000000,
+          "cuotaMensual": 1480000,
+          "plazoMeses": 180,
+          "plazoRestanteMeses": 132,
+          "diasMora": 0,
+          "estadoMora": "al_dia",
+          "garantia": {
+            "tipo": "inmueble",
+            "direccion": "Calle 14 # 23-18 Apto 503, Pereira",
+            "valorEstimado": 190000000
+          }
+        },
+        {
+          "idObligacion": "ACC-TC-JOR-002",
+          "entidadAcreedora": "BANCO CAJA SOCIAL S.A.",
+          "tipoProducto": "tarjeta_credito",
+          "estado": "abierta",
+          "moneda": "COP",
+          "saldoInsoluto": 1200000,
+          "cupo": 4000000,
+          "cuotaMensual": 150000,
+          "diasMora": 38,
+          "estadoMora": "mora_30_59"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "escenario": "Jorge — perfil neutro (factor 1,05) con un factor positivo y uno negativo, endeudamiento bajo y pagos irregulares, para '¿Por qué este precio?' con los dos efectos; hipoteca en BBVA (Sprint 2, documento de prueba 2026000006)"
+  }
+}
