@@ -85,9 +85,14 @@ spec:
             # svc-cotizacion (no pasa por el gateway) y consume CotizacionCreada /
             # CotizacionEliminada para borrar la póliza pendiente de la cotización anterior, y
             # DocumentoPolizaGenerado para encargar el correo con el PDF adjunto (suscripción
-            # core-polizas, iac-gcp-dev/modules/pubsub). El documento de la póliza sigue en "fake"
-            # hasta aplicar el módulo fn-documentos: entonces se agregan CORE_DOCUMENTO_BACKEND=http
-            # y CORE_DOCUMENTO_BASE_URL (salida `fn_documentos_url` de iac-gcp-dev).
+            # core-polizas, iac-gcp-dev/modules/pubsub). El enlace del documento de la póliza lo
+            # pide a fn-documentos (Cloud Run, módulo iac-gcp-dev/modules/fn-documentos) con un
+            # token de identidad de la cuenta de servicio del pod; la URL es la salida
+            # `fn_documentos_url` de iac-gcp-dev.
+            - name: CORE_DOCUMENTO_BACKEND
+              value: http
+            - name: CORE_DOCUMENTO_BASE_URL
+              value: https://fn-documentos-sfvqabtlya-rj.a.run.app
             - name: CORE_COTIZACION_BACKEND
               value: http
             - name: CORE_COTIZACION_BASE_URL
