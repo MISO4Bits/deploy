@@ -107,12 +107,26 @@ spec:
               value: pubsub
             - name: CORE_PUBSUB_SUBSCRIPTION
               value: core-polizas
+            # Cuentas del personal de Solventa (BITS-374): POST /v1/usuarios-internos crea
+            # administradores y socios en Identity Platform (interno, sin gateway: lo llama
+            # bff-web). Al arrancar, Core crea el administrador de la semilla si no existe, en
+            # segundo plano y sin tumbar el arranque si falla; nunca pisa una cuenta existente.
+            # La contraseña maestra no va aquí: se monta como archivo desde Secret Manager
+            # (secretproviderclass.yaml) y la lee la configuración de /var/secrets.
+            - name: CORE_CUENTAS_INTERNAS_BACKEND
+              value: real
+            - name: CORE_ADMIN_SEED_EMAIL
+              value: admin@solventa4bits.com
             # Observabilidad (DI-008): activa el SDK de OpenTelemetry
             # (deshabilitado por defecto en config.py). Exporta hacia el
             # receptor de Alloy dentro del mismo cluster (namespace
             # observability, ver iac-gcp-dev/modules/observability).
             - name: CORE_OTEL_ENABLED
               value: "true"
+          volumeMounts:
+            - name: svc-core-secrets
+              mountPath: /var/secrets
+              readOnly: true
           # 1 vCPU / 1 Gi (antes 250m / 512 Mi): los modelos de la selfie (BITS-235)
           # corren en este mismo pod, y con un límite de procesador el estrangulamiento
           # afecta a todo el contenedor, incluidas las transacciones de dinero. Sin
@@ -137,3 +151,10 @@ spec:
               port: http
             initialDelaySeconds: 10
             periodSeconds: 20
+      volumes:
+        - name: svc-core-secrets
+          csi:
+            driver: secrets-store-gke.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: svc-core-secrets

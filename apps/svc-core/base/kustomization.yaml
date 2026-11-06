@@ -3,5 +3,6 @@ namespace: svc-core
 resources:
   - namespace.yaml
   - serviceaccount.yaml
+  - secretproviderclass.yaml
   - deployment.yaml
   - service.yaml
