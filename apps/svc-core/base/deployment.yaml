@@ -125,6 +125,13 @@ spec:
             # (secretproviderclass.yaml) y la lee la configuración de /var/secrets.
             - name: CORE_CUENTAS_INTERNAS_BACKEND
               value: real
+            # Venta directa del socio (BITS-378): la póliza se emite aceptando las condiciones en
+            # la versión vigente que publica svc-productos (GET /documentos-legales?tipo=poliza).
+            # También usa CORE_CUENTAS_INTERNAS_BACKEND para crear la cuenta del cliente que un
+            # socio da de alta (POST /v1/clientes/asistidos). Sin esta variable Core usa un doble
+            # que siempre responde V1.
+            - name: CORE_DOCUMENTOS_LEGALES_BACKEND
+              value: http
             - name: CORE_ADMIN_SEED_EMAIL
               value: admin@solventa4bits.com
             # Observabilidad (DI-008): activa el SDK de OpenTelemetry
