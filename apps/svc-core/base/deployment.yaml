@@ -107,6 +107,16 @@ spec:
               value: pubsub
             - name: CORE_PUBSUB_SUBSCRIPTION
               value: core-polizas
+            # Saldo del crédito al reportar un siniestro (BITS-381): Core lo lee una sola vez, al
+            # radicar, del DNS interno de svc-perfilamiento (GET /clientes/{id}/creditos-hipotecarios,
+            # lo que Open Finance ya trajo al otorgarse el consentimiento) y lo guarda con el
+            # siniestro: es lo que se paga al banco. Si svc-perfilamiento no responde, falla o no hay
+            # consentimiento, el reporte se radica igual con el saldo de la póliza
+            # (origen: POLIZA). Sin esta variable Core usa el doble local, que nunca trae hipotecas.
+            - name: CORE_CREDITOS_BACKEND
+              value: http
+            - name: CORE_PERFILAMIENTO_BASE_URL
+              value: http://svc-perfilamiento.svc-perfilamiento.svc.cluster.local
             # Cuentas del personal de Solventa (BITS-374): POST /v1/usuarios-internos crea
             # administradores y socios en Identity Platform (interno, sin gateway: lo llama
             # bff-web). Al arrancar, Core crea el administrador de la semilla si no existe, en
