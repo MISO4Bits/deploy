@@ -1,0 +1,56 @@
+# Trabajo diario de renovación de pólizas (BITS-387). Llama una vez al día al endpoint interno de
+# svc-core, que hace las tres pasadas (aviso a 45 días, cierre y aviso al banco a 30 días,
+# renovación o desactivación en el aniversario). El endpoint es idempotente: correrlo dos veces el
+# mismo día no repite avisos ni renueva dos veces.
+#
+# Usa la imagen de svc-core (el overlay le pone el tag real, igual que al Deployment) y solo
+# necesita Python: no hay otra imagen que descargar ni mantener. Sale con error si svc-core no
+# responde 2xx, así que el Job queda en Failed y se ve en Argo CD.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: svc-core-renovaciones
+  labels:
+    app: svc-core-renovaciones
+spec:
+  # 6:00 a. m. de Colombia, antes de que el cliente empiece su día.
+  schedule: "0 6 * * *"
+  timeZone: America/Bogota
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 3600
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      activeDeadlineSeconds: 300
+      template:
+        metadata:
+          labels:
+            # La NetworkPolicy de svc-core deja entrar a este pod.
+            app: svc-core-renovaciones
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          containers:
+            - name: renovaciones
+              image: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-core:latest
+              imagePullPolicy: Always
+              command:
+                - python
+                - -c
+                - |
+                  import urllib.request
+
+                  peticion = urllib.request.Request(
+                      "http://svc-core/v1/renovaciones/ejecutar", data=b"", method="POST"
+                  )
+                  with urllib.request.urlopen(peticion, timeout=120) as respuesta:
+                      print(respuesta.status, respuesta.read().decode())
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  cpu: 100m
+                  memory: 128Mi

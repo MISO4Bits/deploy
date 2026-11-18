@@ -6,3 +6,5 @@ resources:
   - secretproviderclass.yaml
   - deployment.yaml
   - service.yaml
+  - cronjob-renovaciones.yaml
+  - networkpolicy.yaml

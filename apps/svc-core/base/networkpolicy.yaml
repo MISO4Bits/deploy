@@ -1,0 +1,37 @@
+# Quién puede llamar a svc-core dentro del clúster (BITS-387). CoreTransaccional no se expone
+# fuera: solo lo llaman los dos BFF y el CronJob de renovaciones (cronjob-renovaciones.yaml).
+# Cualquier otro pod queda sin acceso, también al endpoint interno POST /v1/renovaciones/ejecutar.
+#
+# Límite: una NetworkPolicy filtra por origen y puerto, no por ruta. Los BFF comparten el puerto
+# con ese endpoint, pero ninguna de sus rutas lo expone.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: svc-core-ingress
+spec:
+  podSelector:
+    matchLabels:
+      app: svc-core
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: bff-web
+          podSelector:
+            matchLabels:
+              app: bff-web
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: bff-mobile
+          podSelector:
+            matchLabels:
+              app: bff-mobile
+        # El CronJob corre en el mismo namespace que svc-core.
+        - podSelector:
+            matchLabels:
+              app: svc-core-renovaciones
+      ports:
+        - protocol: TCP
+          port: 8080
