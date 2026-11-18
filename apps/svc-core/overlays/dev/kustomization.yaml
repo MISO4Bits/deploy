@@ -5,17 +5,17 @@ resources:
 images:
 - name: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-core
   newName: southamerica-east1-docker.pkg.dev/solventa-admin/solventa/svc-core
-  newTag: sha-1746045
+  newTag: sha-57947f1
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 # BITS-387: en dev el trabajo de renovaciones no corre solo (el clúster se apaga). Se demuestra a
 # mano con una fecha de corte simulada: POST /v1/renovaciones/ejecutar {"fechaCorte": "AAAA-MM-DD"}.
 patches:
-- target:
-    kind: CronJob
-    name: svc-core-renovaciones
-  patch: |-
+- patch: |-
     - op: add
       path: /spec/suspend
       value: true
+  target:
+    kind: CronJob
+    name: svc-core-renovaciones
